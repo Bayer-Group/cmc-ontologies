@@ -1,0 +1,5 @@
+
+
+<http://github.com/bayer-group/xxxxx> <http://pid.github.com/Bayer-Group/kos/19014/hasEMailAddress> <mailto:superadmin@github.com/Bayer-Group> ;
+    <https://pid.github.com/Bayer-Group/kge/hasAccessTo> <https://pid.github.com/Bayer-Group/kge/FusekiLocal> ;
+    <https://pid.github.com/Bayer-Group/kge/hasRole> <https://pid.github.com/Bayer-Group/kge/SuperAdmin> .

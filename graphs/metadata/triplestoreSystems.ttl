@@ -1,0 +1,9 @@
+@prefix kge:   <https://github.com/Bayer-Group/kge/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+kge:FusekiLocal  a    kge:TriplestoreManagementSystem ;
+        rdfs:label    "FusekiLocal" ;
+        kge:Vendor    "Fuseki" ;
+        kge:host      "localhost" ;
+        kge:port      3030 ;
+        kge:protocol  "http" .

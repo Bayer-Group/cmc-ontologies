@@ -1,0 +1,11 @@
+@prefix kge:   <https://github.com/Bayer-Group/kge/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+kge:CMCKGEDataset  a     kge:Triplestore ;
+   rdfs:label              "CMCKGEDataset" ;
+        kge:queryPath   "/cmc-dataset/query" ;
+        kge:runsOn      kge:FusekiLocal ;
+         kge:restrictedAccess  false ;
+        kge:updatePath  "/cmc-dataset/update" ;
+		 kge:password            "admin" ;
+		 kge:user        "admin" .
