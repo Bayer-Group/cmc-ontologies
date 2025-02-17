@@ -53,7 +53,7 @@ stabo:numericalInterpretationOfResultAtTime  a owl:DatatypeProperty;
     rdfs:range xsd:double ;
     rdfs:label "test result represented as number"@en ;
     skos:definition "The test result under the related conditions of this stability test represnsted as a number."@en ;
-    eco:comment """This property always represents a test result as a number. That means that also enumeration values values such as "satisfactory" are mapped to a number such as 1 (and perhaps "unacceptable" to 0 and in-between  values like "acceptable" to 0.8). Also NaN (not a number) might be used as value, e.g. in case a test did not lead to a result or to an invalid result. """ .
+    rdfs:comment """This property always represents a test result as a number. That means that also enumeration values values such as "satisfactory" are mapped to a number such as 1 (and perhaps "unacceptable" to 0 and in-between  values like "acceptable" to 0.8). Also NaN (not a number) might be used as value, e.g. in case a test did not lead to a result or to an invalid result. """ .
 #stabo:resultAtTime a owl:AnnotationProperty;
 #rdfs:label "result at time".
 
