@@ -1,0 +1,263 @@
+@prefix staboi: <https://github.com/Bayer-Group/cmc-ontologies/2000/9/I/> .
+@prefix so: <https://schema.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix pharmdevi: <https://github.com/Bayer-Group/cmc-ontologies/70107/001/1/> .
+@prefix coredev: <https://github.com/Bayer-Group/cmc-ontologies/2000/0/>  .
+@prefix pharmdev: <https://github.com/Bayer-Group/cmc-ontologies/70107/001/> .
+@prefix stabo: <https://github.com/Bayer-Group/cmc-ontologies/2000/9/>  .
+
+# This ontology serves as basis for general concepts like: substance, substanceID, batch, batchID, material, materialID, etc.
+# Its context arose from Pharmaceutical Development and is used as auxiliary in Chemical Manufacturing and Control
+
+# Ontology name: cmc_pharmdev , Abbreviation meaning Chemical Manufacturing and Control Pharmaceutical Development
+# Ontology expressivity level: formost RDF/S only. OWL used at very minimum
+# Ontology date: July 2024
+# Ver. 1.0 
+# Authors: this is a snippet of a wider vocabulary as developed at Bayer by few ontology engineers in different discussions.
+# Final version  author: O. Streibel
+# Changes for public availability: (re-definition, anonymization, dettach from systems URIs, replace properties by publicly available ontologies)
+
+
+# ############ CLASSES ############
+
+stabo:Table a owl:Class ;
+rdfs:subClassOf pido:444586; 
+	rdfs:label "Table"@en;
+	skos:definition	"Table object in the stability reports. For the sake of semplicity, we define a table as an object belonging to the generic structure of a document" .
+    
+
+stabo:StabilityProtocol a owl:Class ;
+	rdfs:label "Stability Protocol"@en;
+	skos:definition	"The overall conditions under which the Stability Tests are performed" .
+
+stabo:StabilityTest a owl:Class ;
+	rdfs:label "Stability Test"@en;
+	skos:definition	"Tests performed under given protocol" .
+
+stabo:StabilityTestAtTime a owl:Class ;
+	rdfs:subClassOf stabo:StabilityTest;
+	rdfs:label "Stability Protocol at a specific time"@en ;
+	skos:definition	"A stability test is ... . Several types of stability tests can be perfomed: 1. Appearance – Colour 2. Appearance – Shape 3. Appearance – Fill 4. Assay. For Assay the Acceptance criterion should be: Absence of Active instead which means, that no Drug Substance can be detected  5. Hardness 6. Disintegration 7. Related Substances For related substances there are in general three different acceptance criteria: - unknown (usually with a limit of less than 0.2%) all detected peaks will be then listed with retention times in the chromatogram as well as the value - known specific relatid substances, these substances have a specific name and an individual toxiologically proven acceptance limit. The results may be n.d. = not detected, smaller LoQ = less than limit of quanititation or a value which should be less than the acceptance limit - total related substances, this is pre defined and usually the sum of all related substances 8. Water content. " .
+
+stabo:storageTimeInDays a owl:DatatypeProperty ;
+    rdfs:domain stabo:StabilityTestAtTime ;
+    rdfs:range xsd:integer ;
+    rdfs:label "analysis happened at day"@en ;
+    skos:definition "Days since the start of the related stability protocol at which the analysis (test) was executed."@en .
+
+stabo:numericalInterpretationOfResultAtTime  a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityTestAtTime ;
+    rdfs:range xsd:double ;
+    rdfs:label "test result represented as number"@en ;
+    skos:definition "The test result under the related conditions of this stability test represnsted as a number."@en ;
+    eco:comment """This property always represents a test result as a number. That means that also enumeration values values such as "satisfactory" are mapped to a number such as 1 (and perhaps "unacceptable" to 0 and in-between  values like "acceptable" to 0.8). Also NaN (not a number) might be used as value, e.g. in case a test did not lead to a result or to an invalid result. """ .
+#stabo:resultAtTime a owl:AnnotationProperty;
+#rdfs:label "result at time".
+
+stabo:resultAtTime a owl:DatatypeProperty;  
+rdfs:domain stabo:StabilityTestAtTime ;
+rdfs:label "result at time" ;
+rdfs:range xsd:NA .
+
+stabo:testParameter a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityTestAtTime;
+    rdfs:range xsd:string;
+    rdfs:label "test parameter"@en ;
+    skos:definition "Parameter of the analysis (test) that was ."@en .
+
+stabo:replicate a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityTestAtTime ;
+    rdfs:range xsd:integer ;
+    rdfs:label "replicate"@en ;
+    skos:definition "Replicate order number of the test with the related test parameter."@en .
+
+stabo:hasBatchDescription a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:string ;
+    rdfs:label "has batch description"@en ;
+    skos:definition "Description of the batch tested in this stability protocol."@en .
+
+stabo:hasStudyId a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:string ;
+    rdfs:label "has study with identifier"@en ;
+    skos:definition "Identifier of the study related to this stability protocol."@en .
+
+stabo:hasStudyDescription a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:string ;
+    rdfs:label "has study description"@en ;
+    skos:definition "Description of the study related to this stability protocol."@en .
+
+stabo:hasProductDescription a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:string ;
+    rdfs:label "has product description"@en ;
+    skos:definition "Description of the product tested in this stability protocol."@en .
+
+stabo:productManufacturedBy a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:string ;
+    rdfs:label "product manufactured by"@en ;
+    skos:definition "Manufacturer of the product tested in this stability protocol."@en .
+
+stabo:manufacturedAtDate a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:date ;
+    rdfs:label "product manufactured at date"@en ;
+    skos:definition "Date the product batch under test was manufactured."@en .
+
+stabo:startDate a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityProtocol ;
+    rdfs:range xsd:date ;
+    rdfs:label "Start Date of the test"@en ;
+    skos:definition "Date the test has started"@en .
+
+
+# ############ PROPRIETIES ############
+# Note: we need to be sure that we do not create cicles using these properties in the instatiated version - to check- hopefully not necessary
+stabo:hasProtocol a owl:ObjectProperty;
+    rdfs:domain pharmdev:PharmaceuticalProduct ;
+    rdfs:range stabo:StabilityProtocol ;
+    rdfs:label "has stability protocol"@en ;
+    skos:definition " In order to analyze a pharmaceutical product, we need to first define the protocol that will be used for the stability analysis. "@en .
+
+stabo:relatedToProtocol a owl:ObjectProperty;
+    rdfs:domain stabo:StabilityTestAtTime ;
+    rdfs:range stabo:StabilityProtocol ;
+    rdfs:label "test done in the protocol"@en ;
+    skos:definition " Stability tests are done following a specific protocol. "@en .
+
+stabo:belongsToTable  a owl:ObjectProperty;
+    rdfs:domain stabo:StabilityTestAtTime ;
+    rdfs:range stabo:Table ;
+    rdfs:label "is a row in table"@en ;
+    skos:definition " Generic property that connects a specific row or data in a table with the table its belong to."@en .
+
+# ----------------------------------------------------------------
+# Annotation properties - we use several annotation properties to simplify the data extraction
+# ----------------------------------------------------------------
+
+# Properties related to formulation - for version 1 of the ontology
+# stabo:hasGrade a rdfs:AnnotationProperty;
+#         rdfs:label "";
+#         skos:definition "".
+
+# stabo:hasQuantity a rdfs:AnnotationProperty;
+#         rdfs:label "";
+#         skos:definition "".
+
+# stabo:itemNmuber a rdfs:AnnotationProperty;
+#         rdfs:label "";
+#         skos:definition "".
+
+# stabo:hasAmount a rdfs:AnnotationProperty;
+#         rdfs:label "";
+#         skos:definition "".
+
+stabo:hasMinimumStorageTemperature a owl:AnnotationProperty, owl:DatatypeProperty ;
+        rdfs:label "has minimum storage temperature";
+        skos:definition "Lower bound of the temperature interval at which the substance under test was stored." ;
+        rdfs:domain stabo:StabilityTestAtTime ;
+        rdfs:range xsd:float .
+
+
+stabo:hasMaximumStorageTemperature a owl:AnnotationProperty, owl:DatatypeProperty;
+        rdfs:label "has minimum storage temperature";
+        skos:definition "Upper bound of the temperature interval at which the substance under test was stored." ;
+        rdfs:domain stabo:StabilityTestAtTime;
+        rdfs:range xsd:float .
+
+stabo:hasRelativeHumidity a owl:AnnotationProperty, owl:DatatypeProperty;
+        rdfs:label "has relative humidity";
+        skos:definition "Relative humidity at which the substance under test was stored ." ;
+        rdfs:domain stabo:StabilityTestAtTime;
+         rdfs:range xsd:float .
+
+stabo:appliedProcedure a owl:AnnotationProperty, owl:DatatypeProperty; ## eventuell eien owl:ObjectProperty und weiteren Konstrukt/? zu Resultat etc.
+        rdfs:label "applied test procedure";
+        skos:definition "Identifier of the test procedure applied to the substance under test ." ;
+        rdfs:domain stabo:StabilityTestAtTime;
+        rdfs:range xsd:string .
+
+stabo:requirementStatus a owl:AnnotationProperty, owl:DatatypeProperty; ##eventuell als blanknode lists 
+        rdfs:label "requirement status";
+        skos:definition "Status of the stability test under the related conditions." ;
+        rdfs:domain stabo:StabilityTestAtTime;
+        rdfs:range xsd:string .
+
+stabo:derivedFromTable  a owl:ObjectProperty;
+    rdfs:domain stabo:Table;
+    rdfs:range stabo:StabilityTest ;
+    rdfs:label "derived from a row in table"@en ;
+    skos:definition " Generic property that connects a the table to derived entities."@en .
+
+stabo:storageTimeInMonths a owl:DatatypeProperty;
+    rdfs:domain stabo:StabilityTestAtTime ;
+    rdfs:range xsd:float ;
+    rdfs:label "Analysis happened at month"@en ;
+    skos:definition "Months since the start of the related stability protocol at which this the analysis (test) was executed."@en .
+
+
+stabo:testAt0Month a owl:DatatypeProperty;
+    rdfs:range xsd:string ;
+    rdfs:label "test at 0 month"@en ;
+    skos:definition "Test result at 0 month"@en .
+
+stabo:testAt1Month a owl:DatatypeProperty;
+    rdfs:range xsd:string ;
+    rdfs:label "test after 1 month"@en ;
+    skos:definition "Test result at 1 month"@en .
+
+stabo:testAt3Month a owl:DatatypeProperty;
+    rdfs:range xsd:string ;
+    rdfs:label "test after 3 months"@en ;
+    skos:definition "Test result at 3 months"@en .
+ 
+stabo:testAt6Month a owl:DatatypeProperty;
+    rdfs:range xsd:string ;
+    rdfs:label "test after 6 months"@en ;
+    skos:definition "Test result at 6 months"@en .
+
+## sugesstions end
+
+stabo:hasContainerSize a owl:AnnotationProperty,  owl:DatatypeProperty;
+        rdfs:label "has container size";
+        skos:definition "The size of the container that was used to store the substance under test related to the stability protocol." ;
+        rdfs:domain stabo:StabilityProtocol;
+        rdfs:range xsd:string.
+
+stabo:hasContainerType a owl:AnnotationProperty,  owl:DatatypeProperty;
+        rdfs:label "has container type";
+        skos:definition "The type of the container that was used to store the substance under test related to the stability protocol." ;
+        rdfs:domain stabo:StabilityProtocol;
+        rdfs:range xsd:string.
+
+
+stabo:hasStorageTemperature a owl:AnnotationProperty, owl:DatatypeProperty;
+	rdfs:domain stabo:StabilityTestAtTime;
+	rdfs:range xsd:float;
+        rdfs:label "has storage temperature";
+        skos:definition "A storage temperature is ... . The storage temperature usually are: 25°C/60%RH (=storage condition) 30°C/60°RH (=intermediate condition) 40°C/75%RH (=accelerated condition) intermediate and accelerated conditions are used for prediction of the shelf life as well as to evaluate short time temperature excursions during transport.".
+
+
+stabo:hasProtocolType a owl:AnnotationProperty, owl:DatatypeProperty;
+	rdfs:domain stabo:StabilityProtocol;
+        rdfs:label "has protocol type";
+        skos:definition "Protocol types can be in general A, B or AB. A usally reflects all testings with exception of microbial testing which listed in the initial table as total aerobic microbial count B are the microbial testings and AB means oth have to be performed";
+	rdfs:range xsd:string.
+
+stabo:testType a owl:AnnotationProperty, owl:DatatypeProperty;
+	rdfs:domain stabo:StabilityTestAtTime;
+        rdfs:label "is test type";
+	rdfs:range xsd:string;
+        skos:definition "It describes the type of test carried out on the substance.".
+
+stabo:hasAcceptanceCriteria a owl:AnnotationProperty, owl:DatatypeProperty;
+	rdfs:domain stabo:StabilityTestAtTime;
+         rdfs:range xsd:string;
+        rdfs:label "has acceptance criteria";
+        skos:definition "The condition that determines if the test result is satisfactory or not.".
