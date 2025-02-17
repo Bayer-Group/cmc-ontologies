@@ -1,0 +1,203 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix coredev: <https://github.com/Bayer-Group/cmc-ontologies/2000/0/>  .
+@prefix pharmdev:   <https://github.com/Bayer-Group/cmc-ontologies/70107/001/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix prov: <http://www.w3.org/TR/prov-o/> .
+@prefix solont: <https://github.com/Bayer-Group/cmc-ontologies/2000/5/> .
+@prefix dcmi: <http://dublincore.org/specifications/dublin-core/dcmi-terms/2020-01-20/> .
+@prefix polymo: <https://github.com/Bayer-Group/cmc-ontologies/2000/1/> .
+
+# Solubility Ontology
+# Ver. 1.0 , July 2024
+# Authors: A.Sinha, O.Streibel.
+# Comment: First module for solubility.
+# In this file you find the auxiliary classes and properties that allow us for describing
+# the matter around solubility and other chemical properties.
+
+solont:    a                        owl:Ontology ;
+        rdfs:comment               "  ";
+        rdfs:label                 "Solubility Ontology"@en , "Solubility Ontology 1.0" ;
+        rdfs:altLabel               "Solont"@en , "Solubility Ontology"@en ;
+        owl:versionInfo             "1.0" ; 
+        rdfs:prefLabel              "Solont"@en ;
+        dcmi:identifier             "solont" ;
+        <http://purl.org/dc/elements/1.1/title> "CMC Solubility Ontology" .
+
+
+#################### CLASSES ###########################
+
+solont:SolubilityResult a owl:Class ;
+#rdfs:prefLabel "All solubility results"@en ,
+	rdfs:label "All solubility results"@en .
+		
+solont:Dissolution a owl:Class ;
+	rdfs:label "Dissolution"@en , "Auflösung"@de ;
+	skos:definition	"Dissolution has to be linked to the potentially existing other definitions in external ontologies " ;  
+    rdfs:prefLabel "dissolution"@de .
+
+solont:Melting_point a owl:Class ;
+    rdfs:label "Melting point"@en, "Schmelzpunkt"@de ;
+	skos:definition "Der Schmelzpunkt einer Substanz"@de ;
+    rdfs:prefLabel "Schmelzpunkt"@de .
+	rdfs:prefLabel "Melting point"@en .
+
+solont:Modification a owl:Class ;
+    rdfs:subClassOf polymo:Polymorphism ;
+	skos:definition "Chemical modification describes the conversion of macromolecules through a chemical reaction or series of reactions. (from wikipedia)"@en ; 
+    rdfs:label "Modification" .
+
+solont:Permeability a owl:Class ;
+	rdfs:label "Permeability"@en, "Permeabilität"@de ;
+	skos:definition "Permeability is a measure of the ease of passage of liquids or gases or specific chemicals through the material.  (from https://www.sciencedirect.com/topics/materials-science/permeability#:~:text=Permeability%20is%20a%20measure%20of,gas%20passing%20through%20the%20sample.)"@en ;
+    rdfs:prefLabel "Permeabilität"@de . 
+
+solont:Purity a owl:Class ;
+	rdfs:label "Purity"@en, "Reinheit"@de ;
+	skos:definition "Chemical purity is the measurement of the amount of impurities found in a chemical sample. (from Wikipedia)"@en ;
+    rdfs:prefLabel "Reinheit"@de .
+
+solont:Solubility a owl:Class ;
+	rdfs:label "solubility"@en , "Löslichkeit"@de ;
+	skos:definition "Solubility is the property of a solid, liquid or gaseous chemical substance called solute to dissolve in a solid, liquid or gaseous solvent. The solubility of a substance fundamentally depends on the physical and chemical properties of the solute and solvent as well as on temperature, pressure and presence of other chemicals (including changes to the pH) of the solution."@en ;
+    skos:editorialNote "the Solubility definition here has to be connected to potentially existing definition" ;
+    rdfs:prefLabel "Löslichkeit"@de .
+	rdfs:prefLabel "Solubility"@en .
+
+solont:Soluble	a owl:Class ;
+	rdfs:label "Soluble"@en ;
+	rdfs:label "Löslich"@de ;
+	skos:definition	"Soluble is a concept which allows us to describe characteristics like 'sparingly soluble, slightly soluble' etc. " ;
+	rdfs:prefLabel "löslich"@de .
+
+solont:Solvent	a owl:Class;
+	rdfs:label "Solvent"@en ;
+	rdfs:label "Lösungsmittel"@de ;
+	skos:definition	"Solvent is a concept which allows us to describe solvents as its instances like 'water, 0,1 M HCl' etc. " ;
+	rdfs:prefLabel "Lösungsmittel"@de .
+
+solont:Stability a owl:Class ;
+	rdfs:label "Stability"@en , "Stabilität"@de ;
+	skos:definition "In everyday language, and often in materials science, a chemical substance is said to be stable if it is not particularly reactive in the environment or during normal use, and retains its useful properties on the timescale of its expected usefulness. (from Wikipedia - to check)"@en;
+    rdfs:prefLabel "Stabilität"@de .   
+
+solont:StabilityValue a owl:Class ;
+	rdfs:label "Stability value"@en , "Stabilitätwert"@de ;
+	skos:definition "Value of stability"@en ;
+    rdfs:prefLabel "Stabilitätswert"@de .
+
+solont:Viscosity a owl:Class ;
+	rdfs:label "Viscosity"@en, "Viskosität"@de ;
+	skos:definition "The viscosity of a fluid is a measure of its resistance to deformation at a given rate. (from wikipedia)"@en ;
+    rdfs:prefLabel "Viscosität"@de . 
+ 
+
+################### PROPERTIES ########################
+
+solont:hasForm a owl:ObjectProperty ;
+        rdfs:domain pharmdev:Compound ;
+        rdfs:range polymo:Form ;
+        rdfs:label "has form"@en ;
+        skos:definition " A compound- substance or substance combination - has a form "@en .
+
+
+solont:examinedFor a owl:ObjectProperty ;
+        rdfs:domain pharmdev:Compound ;
+        rdfs:range polymo:Form ;
+        rdfs:label "was examined for"@en .
+
+solont:hasSolubilityValue a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:domain pharmdev:Compound ; 
+	rdfs:label  "is soluble in a following way: "@en ;
+	rdfs:range solont:Soluble ;
+	skos:definition "This property defines solubility values by setting them as characteristics of being soluble"@en .
+
+solont:hasValueInSolvent a owl:DatatypeProperty ;
+	rdfs:domain solont:Solvent ; 
+	rdfs:label  "A compound has this value in this solvent "@en ;
+	rdfs:range xsd:double ;
+	skos:definition "This property attributes a double value to a solvent and can be used only with relation to compound (in a datashape)"@en .
+
+solont:hasTemperature a owl:AnnotationProperty ;
+	rdfs:label "has Temperature"@en . 
+	
+solont:hasPH a owl:AnnotationProperty ;
+	rdfs:label "has PH"@en . 
+
+solont:hasConcentration a owl:AnnotationProperty ;
+	rdfs:label "has concentration"@en . 
+
+solont:hasStabilityValue a owl:ObjectProperty , owl:FunctionalProperty ;
+	rdfs:domain pharmdev:Compound ; 
+	rdfs:range solont:StabilityValue ;
+	rdfs:label  "is stable in a following way: "@en ;
+	skos:definition "This property defines stability ways by setting them as characteristics of a compound"@en .
+
+solont:solubleIn a owl:ObjectProperty ;
+	rdfs:domain pharmdev:Compound ; 
+	rdfs:label  "is soluble in the following solvent "@en ;
+	rdfs:range solont:Solvent;
+	skos:definition "This property helps in listing the solvent in which given compound is soluble in"@en .
+
+solont:isTestedIn a owl:ObjectProperty ;
+	rdfs:domain pharmdev:Compound ; 
+	rdfs:label  "is tested in the following solvent "@en ;
+	rdfs:range solont:Solvent;
+	skos:definition "This property helps in listing the solvent in which given compound is tested in"@en .
+
+# This property correctly represents the relation between solubility and all the mesurements extracts from the solubility table
+solont:hasMeasure a owl:ObjectProperty ;
+        rdfs:label         "has measure" ;
+        skos:definition     "A solubility has several measurement"@en ;
+        rdfs:domain  solont:SolubilityResult;
+        rdfs:range   solont:Solubilty.
+
+solont:hasBatchNumber a owl:AnnotationProperty;
+        rdfs:label "has batch number " .
+
+solont:hasTestID a owl:AnnotationProperty;
+        rdfs:label "has test ID " .
+
+solont:hasReqNumber a owl:AnnotationProperty;
+        rdfs:label "has request number " . 
+
+solont:hasStirringTime a owl:ObjectProperty;
+        rdfs:label  "has stirring time " ;
+		rdfs:domain solont:Solubilty ;
+		rdfs:range  xsd:dateTime .
+
+solont:hasComment a owl:ObjectProperty;
+        rdfs:label  "has comment " ;
+		rdfs:domain solont:Solubilty ;
+		rdfs:range  xsd:string .
+
+solont:relatesToInternalID a owl:ObjectProperty;
+		rdfs:label  "relates to Internal ID" ;
+		rdfs:domain coredev:TestID ;
+		rdfs:range  pharmdev:InternalID .
+
+solont:practically_insoluble a owl:AnnotationProperty ;                                            
+        rdfs:label "practically insoluble"@en .
+
+solont:very_slightly_soluble a owl:AnnotationProperty ;                                            
+        rdfs:label "very slightly soluble"@en .
+
+solont:slightly_soluble a owl:AnnotationProperty ;                                            
+        rdfs:label "slightly soluble"@en .
+
+solont:soluble a owl:AnnotationProperty ;                                            
+        rdfs:label "soluble"@en .
+
+solont:insoluble a owl:AnnotationProperty ;                                            
+        rdfs:label "insoluble"@en .
+
+solont:sparingly_soluble a owl:AnnotationProperty ;                                            
+        rdfs:label "sparingly soluble"@en .
+
+solont:freely_soluble a owl:AnnotationProperty ;                                            
+        rdfs:label "freely soluble"@en .
+
+solont:very_soluble a owl:AnnotationProperty ;                                            
+        rdfs:label "very soluble"@en .
