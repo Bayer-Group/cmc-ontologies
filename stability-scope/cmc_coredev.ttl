@@ -1,0 +1,134 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix coredev: <https://github.com/Bayer-Group/cmc-ontologies/2000/0/>  .
+@prefix pharmdev:   <https://github.com/Bayer-Group/cmc-ontologies/70107/001/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix prov: <http://www.w3.org/TR/prov-o/> .
+@prefix main: <https://github.com/Bayer-Group/cmc-ontologies/kos/19014/> .
+
+############# CLASSES ############
+coredev:Document rdf:type owl:Class ;
+        rdfs:comment       "A document in CMC"@en ;
+        rdfs:label         "Document"@en ;
+        rdfs:subClassOf    main:Document ;
+        skos:definition     "A document for CMC."@en ;
+        skos:editorialNote  "It has properties that allow us to add provenance to the documents. "@en .
+
+coredev:CMCDepartment rdf:type owl:Class ; 
+            rdfs:subClassOf main:Department ;
+            rdfs:altLabel "Function"@en ;
+            skos:definition "Departments in CMC. E.g., ChD FD etc."@en ;
+            rdfs:label "Abteilung"@de , "CMC Department"@en .
+
+coredev:CMCStorageSystem rdf:type owl:Class ; 
+        rdfs:comment       "Class for storage systems in CMC"@en ;
+        rdfs:label         "Storage System Type"@en ;
+        rdfs:SubClassOf    main:DataStorageSystem ;
+        skos:definition     "The storage systems in which all CMC stores its own data."@en .
+
+coredev:FileFormat rdf:type owl:Class ;
+        rdfs:comment       "Class for file format"@en ;
+        rdfs:label         "File Format"@en ;
+        skos:definition     "The file format in which a file is saved."@en .
+      
+coredev:Laboratory rdf:type owl:Class ;
+        rdfs:label "Laboratory" ;
+        prov:wasDerivedFrom <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C37984> ;
+        rdfs:isDefinedBy <http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl#C37984> ;
+        skos:editorialNote "Laboratory is the same as Laboratory in nci ".  
+
+coredev:Experiment rdf:type owl:Class ;
+        rdfs:label "Experiment" ;
+        skos:definition  "A general Experiment in CMC"@en .
+
+coredev:TestId rdf:type owl:Class ;
+        rdfs:label "Test identifier" ;
+        skos:definition  "The identifier of a test performed"@en .
+
+coredev:Material  rdf:type   owl:Class ;
+        rdfs:comment       "Material is any substance that has mass and takes up space by having volume. (From Wikipedia)"@en ;
+        rdfs:label         "Material"@en ;
+        skos:definition     "Material is any substance that has mass and takes up space by having volume. (From Wikipedia)"@en .
+
+
+# ############ PROPERTIES ############
+
+coredev:managedBy rdf:type owl:ObjectProperty ;
+        rdfs:label "managed by" ;
+        skos:definition     "A generic file or document is managed by a specific department."@en ;
+        rdfs:domain main:CreativeWork ; 
+        rdfs:range  coredev:CMCDepartment .
+
+coredev:docStoredIn rdf:type owl:ObjectProperty ; 
+        rdfs:label         "stored in" ;
+        skos:definition     "A file is stored in a specific system."@en ;
+        rdfs:domain coredev:Document ;
+        rdfs:range  coredev:CMCStorageSystem .
+
+coredev:docStoredInPath rdf:type owl:AnnotationProperty ; 
+        rdfs:label         "available at" ;
+        skos:definition     "A file is stored in a system following the specified path ."@en ;
+        rdfs:domain coredev:Document .
+
+coredev:hasFormat rdf:type owl:ObjectProperty ;
+        rdfs:label         "has format" ;
+        skos:definition     "a document has a specific file format. It can also be paper format"@en ;
+        rdfs:domain main:CreativeWork ;
+        rdfs:range  coredev:FileFormat .
+
+coredev:formatType rdf:type owl:AnnotationProperty ;
+        rdfs:label "The form in which a given work exist: electronic or not electronic" .  
+
+coredev:isIn rdf:type owl:ObjectProperty ;
+        rdfs:label         "is in the department:" ;
+        skos:definition     "A laboratory is part of a specific department or organization"@en ;
+        rdfs:domain coredev:Laboratory ;
+        rdfs:range  coredev:CMCDepartment .
+
+coredev:expStoredIn rdf:type owl:ObjectProperty ;
+        rdfs:label         "belongs to" ;
+        skos:definition     "A solubility result is stored in a source"@en ;
+        rdfs:domain  coredev:Experiment;
+        rdfs:range   coredev:CMCStorageSystem.
+
+coredev:hasTextContent  rdf:type      owl:AnnotationProperty ;
+        skos:definition     "Content of a source in a form of text. The source can be a table, a paragraph, etc etc."@en ;
+        rdfs:label         "has content"@en ;
+        rdfs:range         xsd:string . 
+
+coredev:doneIn rdf:type owl:ObjectProperty ;
+        rdfs:label         "performed in" ;
+        skos:definition     "An experiment is performed/done in a laboratory"@en ;
+        rdfs:domain  coredev:TestId;
+        rdfs:range   coredev:Laboratory.
+
+coredev:batchMaterialNumber  rdf:type    owl:ObjectProperty ;
+	rdfs:comment       "The unique number of the material" ;
+        rdfs:domain        coredev:Material ;
+        rdfs:label         "Batch Material Number"@en ;
+        rdfs:range         xsd:float ;
+        skos:editorialNote  "Every material has a unique material number attached to it"@en .
+
+coredev:batchMaterialName  rdf:type            owl:ObjectProperty ;
+        rdfs:comment       "The description of the material" ;
+        rdfs:domain        coredev:Material ;
+        rdfs:label         "Batch Material Name"@en ;
+        rdfs:range         xsd:string ;
+        skos:editorialNote  "Gives the description of the material"@en .
+
+coredev:batchHasInternalID  rdf:type    owl:ObjectProperty ;
+        rdfs:domain        coredev:Material ;
+        rdfs:label         "has Internal ID"@en ;
+        rdfs:range         pharmdev:InternalID .
+
+coredev:hasFormulationIngredients  rdf:type      owl:AnnotationProperty ;
+        skos:definition     "Formulation ingredients of a batch."@en ;
+        rdfs:label         "has ingredients"@en ;
+        rdfs:range         xsd:string . 
+
+coredev:hasInternalID  rdf:type    owl:ObjectProperty ;
+        rdfs:domain        coredev:Document ;
+        rdfs:label         "has Internal ID"@en ;
+        rdfs:range         pharmdev:InternalID .

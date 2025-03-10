@@ -1,0 +1,102 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://api.stardog.com/> .
+@prefix main: <https://github.com/Bayer-Group/cmc-ontologies/kos/19014/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix dcmi: <http://dublincore.org/specifications/dublin-core/dcmi-terms/2020-01-20/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix prov: <http://www.w3.org/TR/prov-o/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+
+<https://github.com/Bayer-Group/cmc-ontologies/kos/19014/> a owl:Ontology ;
+    dc:title "Main Ontology" ;
+    dcmi:identifier "main" ;
+   rdfs:comment "This is the main ontology where the most common concepts of chemical manufacturing and control are defined." ;
+    rdfs:label "Main Ontology" .
+
+main:CreativeWork a owl:Class ;
+    skos:definition "The most generic kind of creative work, including books, movies, photographs, software programs, data models, etc. It is created by a creator. There can be different versions of the same creative work."@en ;
+    rdfs:comment "The most generic kind of creative work, including books, movies, photographs, software programs, data models, etc. It is created by a creator. There can be different versions of the same creative work."@en ;
+    rdfs:label "Creative Work"@en ;
+    rdfs:subClassOf owl:Thing .
+
+main:Document a owl:Class ;
+    skos:definition "This concept represents all digital as well as non-digital documents."@en ;
+    skos:editorialNote "Why the limitation to \"digital\" documents? If necessary then change label to \"Digital Document\". Otherwise remove the \"digital\" apect from the definition or add something like \"all digital and non-digital documents\"."@en , " Extended the definition with \"as well as non-digital\"." ;
+    prov:wasDerivedFrom <http://xmlns.com/foaf/0.1/Document> , <https://schema.org/DigitalDocument> ;
+    rdfs:comment "This concept represents all digital as well as non-digital documents." ;
+    rdfs:label "Document"@en , "Dokument"@de ;
+    rdfs:subClassOf main:CreativeWork .
+
+main:Identifier a owl:Class ;
+    skos:definition "This is a generic concept that represents any kind of identifier."@en ;
+    rdfs:comment "This is a generic concept that represents any kind of identifier." ;
+    rdfs:label "Identifier"@en ;
+    rdfs:subClassOf owl:Thing .
+
+main:Activity a owl:Class ;
+    skos:definition "Everything that can be performed by an agent on anything. Activities can be processing, transforming, modifying, relocating, using etc." ;
+    prov:wasDerivedFrom <http://schema.org/Action> , <http://www.w3.org/ns/prov#Activity> ;
+    rdfs:comment "Everything that can be performed by an agent on anything. Activities can be processing, transforming, modifying, relocating, using etc." ;
+    rdfs:label "Actividad"@es , "Activity"@en , "Activité"@fr , "Aktivität"@de ;
+    rdfs:subClassOf owl:Thing .
+
+main:Product a owl:Class ;
+    skos:definition "Any offered product or service. For example: a pair of shoes; a concert ticket; the rental of a car; a haircut; or an episode of a TV show streamed online."@en ;
+    prov:wasDerivedFrom <https://schema.org/Product> ;
+    rdfs:comment "Any offered product or service. For example: a pair of shoes; a concert ticket; the rental of a car; a haircut; or an episode of a TV show streamed online." ;
+    rdfs:label "Product"@en , "Produkt"@de ;
+    rdfs:subClassOf owl:Thing .
+
+main:GeographicalLocation a owl:Class ;
+    skos:definition "A position, site, area, or point in space where something can be found."@en ;
+    skos:editorialNote "Added the term area to the definition"@en ;
+    prov:wasDerivedFrom <https://schema.org/Place> ;
+    rdfs:comment "A position, site, or point in space where something can be found." ;
+    rdfs:label "Emplacement"@fr , "Geographical Location"@en , "Localizzazione"@it , "Standort"@de ;
+    rdfs:subClassOf owl:Thing .
+
+main:GovernmentBody a owl:Class ;
+    skos:definition "A formal organization that is an agency, instrumentality, or other body of supranational, national, federal, state, or local government, including certain multijurisdictional agencies and departments that carry out the business of government" ;
+    prov:wasDerivedFrom <https://spec.edmcouncil.org/static/glossary/production.html#Imported%20Ontologies::GovernmentEntities::government%20body> ;
+    rdfs:comment "A formal organization that is an agency, instrumentality, or other body of supranational, national, federal, state, or local government, including certain multijurisdictional agencies and departments that carry out the business of government" ;
+    rdfs:label "Government Body"@en ;
+    rdfs:subClassOf main:LegalEntity , foaf:Organization .
+
+main:LegalEntity a owl:Class ;
+    skos:definition "A person, partnership, corporation, or any other organization having the capacity to negotiate contracts, organized under the laws of some jurisdiction."@en ;
+    rdfs:comment "A person, partnership, corporation, or any other organization having the capacity to negotiate contracts, organized under the laws of some jurisdiction."@en ;
+    rdfs:label "Legal Entity"@en ;
+    rdfs:subClassOf dcmi:Agent .
+
+main:Department a owl:Class ;
+    skos:definition "Different parts of an organization (HR, Finance, Procurement) might have different views on the overall organization and create their own organigram with departments. Therefore, this concept can be used to create these different views on the overall organization."@en ;
+    skos:editorialNote "This concept was initially labeled as \"department\". "@en ;
+    rdfs:label "Abteilung"@de , "Department"@en ;
+    rdfs:subClassOf foaf:Organization .
+
+main:DataStorageSystem a owl:Class ;
+    skos:definition "A data storage system is a software that is designed to store data persistently, e.g. relation database, document database, graph database."@en ;
+    rdfs:comment "A data storage system is a software that is designed to store data persistently, e.g. relation database, document database, graph database."@en ;
+    rdfs:label "Data Storage System"@en ;
+    rdfs:subClassOf main:SoftwareApplication .
+
+main:SoftwareApplication a owl:Class ;
+    skos:definition "A software application is an application that it used for some purporse and is in its essence a piece of software. Examples are Excel, Photoshop, Outlook, Visual Studio Code, Eclipse IDE."@en ;
+    rdfs:comment "A software application is an application that it used for some purporse and is in its essence a piece of software. Examples are Excel, Photoshop, Outlook, Visual Studio Code, Eclipse IDE."@en ;
+    rdfs:label "Software Application"@en , "Software-Anwendung"@de ;
+    rdfs:subClassOf dcmi:Agent , main:DigitalResource .
+
+main:DigitalResource a owl:Class ;
+    rdfs:comment "A digital resource is a resource that can be stored on and processed by computers." ;
+    rdfs:label "Digital Resource"@en , "Digitale Ressource"@de ;
+    rdfs:subClassOf main:Resource .
+
+main:Resource a rdfs:Class , owl:Class ;
+    skos:definition "A resource is a source or supply from which a benefit is produced. In an enterprise some resources are material stock, staff, cash etc." ;
+    rdfs:comment "A resource is a source or supply from which a benefit is produced. In an enterprise some resources are material stock, staff, cash etc." ;
+    rdfs:label "Resource"@en , "Ressource"@de ;
+    rdfs:subClassOf owl:Thing .
+

@@ -1,0 +1,83 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix coredev: <https://github.com/Bayer-Group/cmc-ontologies/2000/0/>  .
+@prefix pharmdev:   <https://github.com/Bayer-Group/cmc-ontologies/70107/001/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix prov: <http://www.w3.org/TR/prov-o/> .
+@prefix solont: <https://github.com/Bayer-Group/cmc-ontologies/2000/5/> .
+@prefix dcmi: <http://dublincore.org/specifications/dublin-core/dcmi-terms/2020-01-20/> .
+@prefix polymo: <https://github.com/Bayer-Group/cmc-ontologies/2000/1/> .
+
+polymo:    a                         owl:Ontology ;
+        rdfs:comment               "The ontology for polymorphic vocabulary. ";
+        rdfs:label                 "Polymorphy ontology"@en , "Polymorphy Ontology 1.0" ;
+        <http://purl.org/dc/elements/1.1/title> "POLYontology" ;
+        rdfs:altLabel               "POLYMO"@en , "Chemical Manufacturing and Control polymorphy Ontology"@en ;
+        owl:versionInfo              "1.0" ; 
+        rdfs:prefLabel               "POLYMOntology"@en ;
+        dcmi:identifier             "polymo" .
+
+
+
+polymo:Aggregate_state a owl:Class ;
+	rdfs:label "aggregate state"@en , "Aggregatzustand"@de ;
+        skos:definition "Aggregatzustände sind fundamentale Erscheinungsformen von Materie, die sich jeweils sprunghaft in der Mobilität ihrer Atome und Moleküle sowie in der Stärke der Wechselwirkungen zwischen diesen unterscheiden. Die klassischen Aggregatzustände fest, flüssig und gasförmig lassen sich daher sensorisch anhand ihrer unterschiedlichen makroskopischen mechanischen und rheologischen Eigenschaften identifizieren Soure: Wikipedia"@de ;
+        skos:definition "States of aggregate are fundamental manifestations of matter, each of which differs dramatically in the mobility of its atoms and molecules as well as in the strength of the interactions between them. The classical states of matter, solid, liquid and gaseous, can therefore be identified sensorially based on their different macroscopic mechanical and rheological properties Source: Wikipedia"@en ;
+        rdfs:prefLabel "Aggregatzustand"@de . 
+
+polymo:Solid_state a owl:Class ;
+	rdfs:label "solid state"@en , "fester Zustand "@de ;
+        rdfs:subClassOf polymo:Aggregate_state ;
+	skos:definition "In the natural sciences, solid (synonym) (also solid) refers to matter in a solid state. In a narrower sense, this also means a substance that has a solid state at a temperature of 20 °C, whereby the term solid in this case is substance-specific but not temperature-specific. In technical terms, solids have a certain minimum extension, which is, however, not sharply defined. They are therefore macroscopic bodies - in contrast to microscopic bodies Source: Wikipedia"@en ;
+        rdfs:altLabel "Fester Zustand"@de ;
+        rdfs:prefLabel "Festkörperform"@de .
+
+polymo:Liquid_State a owl:Class ;
+	rdfs:label "Liquid state"@en , "flüssiger Zustand"@de ;
+        rdfs:subClassOf polymo:Aggregate_state ;
+	skos:definition "A liquid (synonym) is matter in the liquid state. According to a macroscopic definition, it is a substance that offers almost no resistance to a change in shape, but a fairly large resistance to a change in volume (the substance is almost incompressible). According to a microscopic definition, a liquid is a substance whose particles are constantly moving non-periodically and are not subject to long-range order, but to short-range order, and whose mean free path is on the order of the particle diameter. Source: Wikipedia "@en , " Eine Flüssigkeit (Synonym) ist Materie im flüssigen Aggregatzustand. Nach einer makroskopischen Definition handelt es sich um einen Stoff, der einer Formänderung so gut wie keinen, einer Volumenänderung hingegen einen recht großen Widerstand entgegensetzt (der Stoff ist nahezu inkompressibel). Nach einer mikroskopischen Definition ist eine Flüssigkeit ein Stoff, dessen Teilchen sich ständig nichtperiodisch bewegen sowie keiner Fernordnung, jedoch einer Nahordnung unterliegen und deren mittlere freie Weglänge in der Größenordnung des Teilchendurchmessers liegt. Source: Wikipedia " @de ;
+        rdfs:altLabel "Aggregatzustand: flüssig"@de ;
+        rdfs:prefLabel "Flüssigkeit"@de.
+
+polymo:Gaseous_state a owl:Class ;
+	rdfs:label "Gaseous state"@en , "gasförmiger Zustand"@de ;
+        rdfs:subClassOf polymo:Aggregate_state ;
+	skos:definition "Gas (synonym) In addition to solid and liquid, gaseous is one of the three classic states of matter. A substance is a gas when its particles move freely at a great distance from one another and fill the available space evenly. Compared to a solid or liquid, the same mass as a gas takes up around a thousand to two thousand times the space under normal conditions. Source: Wikipedia"@en , "Gas (Synonym) Neben fest und flüssig ist gasförmig einer der drei klassischen Aggregatzustände. Eine Substanz ist dann ein Gas, wenn sich ihre Teilchen in großem Abstand voneinander frei bewegen und den verfügbaren Raum gleichmäßig ausfüllen. Im Vergleich zum Festkörper oder zur Flüssigkeit nimmt die gleiche Masse als Gas unter Normalbedingungen den rund tausend- bis zweitausendfachen Raum ein. Source: Wikipedia" @de ;
+        rdfs:altLabel "Aggregatzustand: gasfoermig"@de ;
+        rdfs:prefLabel "Gasförmiger Zustand"@de .
+
+polymo:Crystal a owl:Class ;
+	rdfs:label "Crystal"@en , "Kristall"@de ;
+        rdfs:subClassOf polymo:Aggregate_state ;
+	skos:definition "A crystal is a solid whose building blocks - e.g. atoms, ions or molecules - are regularly arranged in a crystal structure. Well-known crystalline materials (synonyms) are table salt, sugar, minerals and snow - but also metals. Due to the regular arrangement of the atoms or molecules, crystals do not have continuous, but rather discrete symmetries; this is referred to as long-range order or translational symmetry.Source: Wikipedia"@en , " Ein Kristall ist ein Festkörper, dessen Bausteine – z. B. Atome, Ionen oder Moleküle – regelmäßig in einer Kristallstruktur angeordnet sind. Bekannte kristalline Materialien (Synonym) sind Kochsalz, Zucker, Minerale und Schnee – aber auch die Metalle. Aufgrund der regelmäßigen Anordnung der Atome bzw. Moleküle weisen Kristalle keine kontinuierlichen, wohl aber diskrete Symmetrien auf; man spricht von Fernordnung oder Translationssymmetrie.Source: Wikipedia" @de ;
+        rdfs:prefLabel "Kristall"@de . 
+
+polymo:Polymorphism a owl:Class ;
+        rdfs:subClassOf polymo:Crystal ;        
+	rdfs:label "Polymorphic form, in short: polymorphism"@en , "Polymorphie"@de ;
+	skos:definition "Polymorphism - the multiplicity of structures or forms - is a term that is used in many disciplines. In chemistry it refers to the existence of more than one crystal structure for a particular chemical substance. The properties of a substance are determined by its composition and by its structure. Source: Joel Bernstein - Polymorphism in Molecular Crystals "@en ;
+        rdfs:prefLabel "Polymorphie"@de .
+
+polymo:Pseudopolymorphism a owl:Class ;
+        rdfs:subClassOf polymo:Crystal ;        
+	rdfs:label "Pseudo polymorphic form, in short: pseudopolymorphism"@en, "Pseudopolymorphie"@de ;
+	skos:definition "In materials science, polymorphism is the ability of a solid material to exist in more than one form or crystal structure. Polymorphism can potentially be found in any crystalline material including polymers, minerals, and metals, and is related to allotropy, which refers to chemical elements. The complete morphology of a material is described by polymorphism and other variables such as crystal habit, amorphous fraction or crystallographic defects. Source: Wikipedia"@en ;
+        rdfs:prefLabel "Pseudopolymorphie"@de .
+
+polymo:Monomorphism a owl:Class ;
+        rdfs:subClassOf polymo:Crystal ;        
+	rdfs:label "Monomorphism"@en , "Monomorphie"@de ;
+	skos:definition "Monomorph - monomorphic: Existing in only one form/crystalline lattice. Source: www "@en ;
+        rdfs:prefLabel "Monomorphie"@de .
+
+polymo:Amorphous a owl:Class ;
+	rdfs:label "Amorphous"@en , "Amorph"@de ;
+        rdfs:subClassOf polymo:SolidState ;
+	skos:definition "Amorph amorphous: Material without crystalline lattice, the molecules do not have any orientation in long range order. Source: www"@en ;
+        rdfs:prefLabel "Amorph"@de . 
+
+polymo:Modification a owl:Class ;
+        rdfs:subClassOf polymo:Polymorphism ;
+        rdfs:label "Modification" .

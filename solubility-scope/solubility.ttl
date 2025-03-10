@@ -163,12 +163,12 @@ solont:hasTestID a owl:AnnotationProperty;
 solont:hasReqNumber a owl:AnnotationProperty;
         rdfs:label "has request number " . 
 
-solont:hasStirringTime a owl:ObjectProperty;
+solont:hasStirringTime a owl:DatatypeProperty;
         rdfs:label  "has stirring time " ;
 		rdfs:domain solont:Solubilty ;
 		rdfs:range  xsd:dateTime .
 
-solont:hasComment a owl:ObjectProperty;
+solont:hasComment a owl:DatatypeProperty;
         rdfs:label  "has comment " ;
 		rdfs:domain solont:Solubilty ;
 		rdfs:range  xsd:string .

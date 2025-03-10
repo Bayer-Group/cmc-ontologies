@@ -1,0 +1,868 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc:   <http://purl.org/dc/elements/1.1/> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix pharmdev:   <https://github.com/Bayer-Group/cmc-ontologies/70107/001/> .
+@prefix solont: <https://github.com/Bayer-Group/cmc-ontologies/2000/5/> .
+@prefix prov: <http://www.w3.org/TR/prov-o/> .
+@prefix main: <https://github.com/Bayer-Group/cmc-ontologies/kos/19014/> .
+
+# This ontology serves as basis for general concepts like: substance, substanceID, batch, batchID, material, materialID, etc.
+# Its context arose from Pharmaceutical Development and is used as auxiliary in Chemical Manufacturing and Control
+
+# Ontology name: cmc_pharmdev , Abbreviation meaning Chemical Manufacturing and Control Pharmaceutical Development
+# Ontology expressivity level: formost RDF/S only. OWL used at very minimum
+# Ontology date: July 2024
+# Ver. 1.0 
+# Authors: this is a snippet of a wider vocabulary as developed at Bayer by few ontology engineers in different discussions.
+# Final version  author: O. Streibel
+# Changes for public availability: (re-definition, anonymization, dettach from systems URIs, replace properties by publicly available ontologies)
+
+pharmdev:    a                     owl:Ontology ;
+        rdfs:comment               "The general ontology on pharmaceutical development and pharmaceutical research related concepts. " ;
+        rdfs:label                 "pharmdev ontology" ;
+        owl:versionIRI       <https://github.com/Bayer-Group/cmc-ontologies/stability-scope/cmc_pharmdev.ttl> ;
+        rdfs:prefLabel         "pharmdev ontology"@en ;
+        dc:identifier        "pharmdev" ;
+        dc:title      "CMC Pharmdev Ontology" ;
+        owl:versionInfo "1.0" .
+        
+      
+pharmdev:Batch rdf:type owl:Class ;
+          rdfs:label "Batch"@en ;
+            rdfs:subClassOf owl:Thing ;
+          skos:definition "Units of a product made as specified groups or amounts, within a time frame at a specific physical location. Typically identified by a lot number, an identification number assigned to a particular quantity or lot of material."@en ;
+          skos:example "Production lot 12345 produced on production line A in plant B at site C on June 11, 2019, containing D units of product E in packaging type F." ;
+          prov:wasDerivedFrom "https://en.wikipedia.org/wiki/Batch_production" .
+
+pharmdev:hasBatchID  a    owl:ObjectProperty ;
+        rdfs:comment    "Links a batch to its identifier."@en ;
+        rdfs:domain     pharmdev:Batch ;
+        rdfs:label      "has batch ID"@en ;
+        rdfs:range      pharmdev:BatchID ;
+        skos:definition  "Links a batch to its identifier."@en .
+
+pharmdev:BatchID  a        owl:Class ;
+        rdfs:comment     "Identifier for a batch"@en ;
+        rdfs:label       "Batch ID"@en ;
+        rdfs:subClassOf  main:Identifier ;
+        skos:definition   "Identifier for a batch"@en .
+
+pharmdev:containsSolubilityResults a owl:ObjectProperty ;
+    rdfs:comment "Links an Internal Number to its all solubility results."@en ;
+    rdfs:label "contains solubility results"@en ;
+    rdfs:domain pharmdev:InternalID ;
+    rdfs:range solont:SolubilityResult .
+
+
+pharmdev:Symptom  a              owl:Class ;
+        rdfs:comment        "Subjective evidence of disease perceived by the patient."@en ;
+        rdfs:label          "Symptom"@en , "Síntoma"@es , "Symptôme"@fr , "Symptom"@de , "Sintomo"@it , "Objaw"@pl ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "Subjective evidence of disease perceived by the patient."@en ;
+        skos:prefLabel  "Symptom"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C4876> .
+
+pharmdev:hasTreatement  a        owl:ObjectProperty ;
+        rdfs:comment        "Links a protocol with a treatment."@en ;
+        rdfs:domain         pharmdev:Protocol ;
+        rdfs:label          "a un traitement"@fr , "ha un trattamento"@it , "tiene tratamiento"@es , "ma Leczenie"@pl , "治療を受けている"@jp , "hat Behandlung"@de ;
+        rdfs:range          pharmdev:Treatment ;
+        skos:definition      "Links a protocol with a treatment."@en ;
+        skos:prefLabel  "has Treatment"@en .
+
+pharmdev:Treatment  a            owl:Class ;
+        rdfs:comment        "A process in which the act is intended to modify or alter some other material entity."@en ;
+        rdfs:label          "Treatment"@en , "Trattamento"@it , "Tratamiento"@es , "Traitement"@fr , "Leczenie"@pl , "Behandlung"@de ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A process in which the act is intended to modify or alter some other material entity."@en ;
+        skos:prefLabel  "Treatment"@en ;
+        prov:wasDerivedFrom  <http://www.ebi.ac.uk/efo/EFO_0000727> .
+
+pharmdev:Protocol  a             owl:Class ;
+        rdfs:comment        "A plan specification which has sufficient level of detail and quantitative information to communicate it between investigation agents, so that different investigation agents will reliably be able to independently reproduce the process."@en ;
+        rdfs:label          "Protocol"@en , "Protokól"@pl , "Protokol"@de , "Protocolo"@es , "Protocollo"@it , "Protocole"@fr ;
+        rdfs:subClassOf     main:Document ;
+        rdfs:altLabel        "Study Protocol"@en ;
+        skos:definition      "A plan specification which has sufficient level of detail and quantitative information to communicate it between investigation agents, so that different investigation agents will reliably be able to independently reproduce the process."@en ;
+        skos:prefLabel  "Protocol"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/OBI/OBI_0000272> .
+
+pharmdev:isTargetAssociatedWithDisease
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a target to a disease."@en ;
+        rdfs:domain         pharmdev:Target ;
+        rdfs:label          "è l'obiettivo associato alla malattia"@it , "est la cible associée à la maladie"@fr , "es el objetivo asociado con la enfermedad"@es , "ist Ziel assoziiert mit Krankheit"@de , "jest powiązany z chorobą"@pl , "病気に関連する標的"@jp , "is target associated with disease"@en ;
+        rdfs:range          pharmdev:Disease ;
+        skos:definition      "Links a target to a disease."@en ;
+        skos:prefLabel  "is target associated with disease"@en .
+
+pharmdev:Target  a               owl:Class ;
+        rdfs:comment        "An object fixed as a goal or point of examination; something to point at; a destination."@en ;
+        rdfs:label          "Target"@en , "Target"@de , "Objetivo"@es , "Obiettivo"@it , "Cible"@fr , "Cel"@pl ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "An object fixed as a goal or point of examination; something to point at; a destination."@en ;
+        skos:prefLabel  "Target"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C25702> .
+
+pharmdev:Disease  a              owl:Class ;
+        rdfs:comment        "A definite pathologic process with a characteristic set of signs and symptoms. It may affect the whole body or any of its parts, and its etiology, pathology, and prognosis may be known or unknown."@en ;
+        rdfs:label          "Disease"@en , "Malattia"@it , "Maladie"@fr , "Krankheit"@de , "Enfermedad"@es , "Choroba"@pl ;
+        rdfs:subClassOf     owl:Thing ;
+        rdfs:altLabel        "Illness"@en , "Sickness"@en , "Ailment"@en ;
+        skos:definition      "A definite pathologic process with a characteristic set of signs and symptoms. It may affect the whole body or any of its parts, and its etiology, pathology, and prognosis may be known or unknown."@en ;
+        skos:prefLabel  "Disease"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/MESH/D004194> .
+
+pharmdev:Protein  a              owl:Class ;
+        rdfs:comment        "A group of complex organic macromolecules composed of one or more chains (linear polymers) of alpha-L-amino acids linked by peptide bonds and ranging in size from a few thousand to over 1 million Daltons. Proteins are fundamental genetically encoded components of living cells with specific structures and functions dictated by amino acid sequence."@en ;
+        rdfs:label          "Protein"@en , "Protéine"@fr , "Proteína"@es , "Proteina"@it , "Protein"@de , "Bialko"@pl ;
+        rdfs:seeAlso        <http://purl.bioontology.org/ontology/SNOMEDCT/88878007> ;
+        rdfs:subClassOf     pharmdev:Target ;
+        skos:definition      "A group of complex organic macromolecules composed of one or more chains (linear polymers) of alpha-L-amino acids linked by peptide bonds and ranging in size from a few thousand to over 1 million Daltons. Proteins are fundamental genetically encoded components of living cells with specific structures and functions dictated by amino acid sequence."@en ;
+        skos:prefLabel  "Protein"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C17021> .
+
+pharmdev:hasAssociatedSymptom
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a disease to a symptom."@en ;
+        rdfs:domain         pharmdev:Disease ;
+        rdfs:label          "związany z objawem"@pl , "ha Sintomo Associato"@it , "Tiene síntomas asociados"@es , "présente un symptôme associé"@fr , "hat assoziiertes Symptom"@de , "関連症状がある"@jp , "has associated symptom"@en ;
+        rdfs:range          pharmdev:Symptom ;
+        skos:definition      "Links a disease to a symptom."@en ;
+        skos:prefLabel  "has associated symptom"@en .
+
+pharmdev:Dose  a                 owl:Class ;
+        rdfs:comment        "A quantity of an agent (such as substance or energy) administered, taken, or absorbed at one time."@en ;
+        rdfs:label          "Dose"@en , "Dosis"@es , "Dosis"@de , "Dose"@it , "Dose"@fr , "Dawka"@pl ;
+        rdfs:seeAlso        <http://www.ebi.ac.uk/efo/EFO_0000428> ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A quantity of an agent (such as substance or energy) administered, taken, or absorbed at one time."@en ;
+        skos:prefLabel  "Dose"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C25488> .
+
+pharmdev:PPN  a                  owl:Class ;
+        rdfs:comment        "Abstract designator for a pharmaceutical product from a R&D perspective. A PPN does not provide any information about the drug dose form of a product. Rather, it groups the different variants of a product under a single designator."@en ;
+        rdfs:label          "Product Principle Name"@en ;
+        rdfs:subClassOf     owl:Thing ;
+        rdfs:altLabel        "PPN"@en ;
+        skos:definition      "Abstract designator for a pharmaceutical product from a R&D perspective. A PPN does not provide any information about the drug dose form of a product. Rather, it groups the different variants of a product under a single designator."@en ;
+        skos:example         "Nexavar" , "Xarelto" , "Aspirin" ;
+        skos:prefLabel  "Product Principle Name"@en .
+
+pharmdev:hasInternalID  a         owl:ObjectProperty ;
+        rdfs:comment        "Links a compound to its assigned Internal Number" ;
+        rdfs:domain         pharmdev:Compound ;
+        rdfs:label          "has Internal Number"@en ;
+        rdfs:range          pharmdev:InternalID ;
+        rdfs:subPropertyOf  pharmdev:hasCompoundID ;
+        skos:definition      "Links a compound to its assigned Internal Number"@en ;
+        skos:editorialNote  "Internal Numbers are not unique identifiers for compounds. Single compound be assigned to multiple Internal Numbers."@en .
+
+pharmdev:Compound  a             owl:Class ;
+        rdfs:comment        "A substance formed by chemical union of two or more elements or ingredients in definite proportion by weight."@en ;
+        rdfs:label          "Compound"@en , "Zlozony"@pl , "Präparat"@de , "Compuesto"@es , "Composé"@fr , "Composto"@it ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A substance formed by chemical union of two or more elements or ingredients in definite proportion by weight."@en ;
+        skos:editorialNote  "*: A distinction must be made between \"Single Substance\" and \"Substance Combination\". "@en ;
+        skos:prefLabel  "Compound"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C43366> .
+
+pharmdev:InternalID  a            owl:Class ;
+        rdfs:comment        "Main identifier for verified and validated compounds within the Organization. Internal Numbers are assigned to single substances as well as to substance combinations."@en ;
+        rdfs:label          "Internal Number"@en ;
+        rdfs:subClassOf     pharmdev:CompoundID ;
+        rdfs:altLabel        "Internal No."@en ;
+        skos:definition      "Main identifier for verified and validated compounds within the Organization. Internal numbers are assigned to single substances as well as to substance combinations."@en ;
+        skos:editorialNote  "Alternative spellings of an Internal Number and synonymous Internal Numbers (which should not exist in a perfect world) are recorded as alternative labels (rdfs:altLabel) of the valid Internal Number."@en , "Valid Internal numbers are intentionally captured as instances, so they have a URI. "@en ;
+        skos:prefLabel  "Internal Number"@en .
+
+pharmdev:hasCompoundID  a    owl:ObjectProperty ;
+        rdfs:comment    "Links a compound to its identifier."@en ;
+        rdfs:domain     pharmdev:Compound ;
+        rdfs:label      "has compound ID"@en ;
+        rdfs:range      pharmdev:CompoundID ;
+        skos:definition  "Links a compound to its identifier."@en .
+
+pharmdev:Pathway  a              owl:Class ;
+        rdfs:comment        "A set or series of interactions, often forming a network, which biologists have found useful to group together for organizational, historic, biophysical, or other reasons."@en ;
+        rdfs:label          "Pathway"@en , "Sciezka"@pl , "Sentiero"@it , "Sentier"@fr , "Pathway"@de , "Camino"@es ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A set or series of interactions, often forming a network, which biologists have found useful to group together for organizational, historic, biophysical, or other reasons."@en ;
+        skos:prefLabel  "Pathway"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C54214> .
+
+pharmdev:hasProtocol  a          owl:ObjectProperty ;
+        rdfs:comment        "Links an experiment with its protocol."@en ;
+        rdfs:domain         pharmdev:Experiment ;
+        rdfs:label          "ma protokół"@pl , "ha protocollo"@it , "プロトコルを持つ"@jp , "a un protocole"@fr , "tiene protocolo"@es , "hat Protokoll"@de , "has protocol"@en ;
+        rdfs:range          pharmdev:Protocol ;
+        skos:definition      "Links an experiment with its protocol."@en ;
+        skos:prefLabel  "has protocol"@en .
+
+pharmdev:ResearchActivity  a     owl:Class ;
+        rdfs:comment        "Systematic investigation into a subject in order to discover facts, establish or revise a theory, or develop a plan of action based on the facts discovered."@en ;
+        rdfs:label          "Research Activity"@en , "Forschungsaktivität"@de , "Dzialalnosc badawcza"@pl , "Attività di ricerca"@it , "Activité de recherche"@fr , "Actividad de investigación"@es ;
+        rdfs:subClassOf     main:Activity ;
+        skos:definition      "Systematic investigation into a subject in order to discover facts, establish or revise a theory, or develop a plan of action based on the facts discovered."@en ;
+        skos:prefLabel  "Research Activity"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C15429> .
+
+pharmdev:Concentration  a        owl:Class ;
+        rdfs:comment        "The quantity of a substance per unit volume or weight; a measure of the amount of substance present in a unit amount of mixture, particularly, the amount of solute dissolved in a solvent. The amounts can be expressed as moles, masses, volumes, or parts."@en ;
+        rdfs:label          "Concentration"@en , "Stezenie"@pl , "Konzentration"@de , "Concentrazione"@it , "Concentration"@fr , "Concentración"@es ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "The quantity of a substance per unit volume or weight; a measure of the amount of substance present in a unit amount of mixture, particularly, the amount of solute dissolved in a solvent. The amounts can be expressed as moles, masses, volumes, or parts."@en ;
+        skos:prefLabel  "Concentration"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C41185> .
+
+pharmdev:isSimilarDrugTo  a      owl:ObjectProperty , owl:TransitiveProperty ;
+        rdfs:comment        "Links a drug to another drug it is similar to."@en ;
+        rdfs:domain         pharmdev:Drug ;
+        rdfs:label          "è simile alla droga"@it , "est un médicament similaire à"@fr , "jest podobny narkotyk"@pl , "ist eine ähnliche Droge"@de , "同様の薬物である"@jp , "es un medicamento similar a"@es , "is similar drug to"@en ;
+        rdfs:range          pharmdev:Drug ;
+        skos:definition      "Links a drug to another drug it is similar to."@en ;
+        skos:editorialNote  "*: The following questions need to be answered: Under what conditions are two drugs considered similar? Who determines this? Where does one find the relevant guidelines?"@en ;
+        skos:prefLabel  "is similar drug to"@en .
+
+pharmdev:Drug  a                 owl:Class ;
+        rdfs:comment        "Any substance which when absorbed into a living organism may modify one or more of its functions. The term is generally accepted for a substance taken for a therapeutic purpose, but is also commonly used for abused substances." ;
+        rdfs:label          "Drug"@en , "Médicament"@fr , "Pharmazeutisches Mittel"@de , "Medikament"@de , "Farmaco"@it , "Medicamento"@es , "Drug"@pl ;
+        rdfs:subClassOf     pharmdev:Compound ;
+        skos:definition      "Any substance which when absorbed into a living organism may modify one or more of its functions. The term is generally accepted for a substance taken for a therapeutic purpose, but is also commonly used for abused substances."@en ;
+        skos:prefLabel  "Drug"@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/CHEBI_23888> .
+
+pharmdev:hasActiveMoiety  a  owl:ObjectProperty ;
+        rdfs:comment    "Links a compound to its active moiety which is also a compound."@en ;
+        rdfs:domain     pharmdev:Compound ;
+        rdfs:label      "has active moiety"@en ;
+        rdfs:range      pharmdev:Compound ;
+        skos:definition  "Links a compound to its active moiety which is also a compound."@en .
+
+pharmdev:CompoundID  a        owl:Class ;
+        rdfs:comment     "Identifier for a compound"@en ;
+        rdfs:label       "Compound ID"@en ;
+        rdfs:subClassOf  main:Identifier ;
+        skos:definition   "Identifier for a compound"@en .
+
+pharmdev:Experiment  a           owl:Class ;
+        rdfs:comment        "A coordinated set of actions and observations designed to generate data, with the ultimate goal of discovery or hypothesis testing."@en ;
+        rdfs:label          "Experiment"@en , "Sperimentare"@it , "Expérience"@fr , "Experimento"@es , "Experiment"@de , "Eksperyment"@pl ;
+        rdfs:subClassOf     pharmdev:ResearchActivity ;
+        skos:definition      "A coordinated set of actions and observations designed to generate data, with the ultimate goal of discovery or hypothesis testing."@en ;
+        skos:prefLabel  "Experiment"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C42790> .
+
+pharmdev:RegulatoryActivity
+        a                   owl:Class ;
+        rdfs:comment        "Activity concerning regulatory affairs."@en ;
+        rdfs:label          "Regulatory Activity"@en ;
+        rdfs:subClassOf     main:Activity ;
+        rdfs:altLabel        "Event"@en ;
+        skos:definition      "Activity concerning regulatory affairs."@en ;
+        skos:example         "Submission"@en , "Variation"@en ;
+        skos:prefLabel  "Regulatory Activity"@en ;
+        skos:scopeNote       "Everything that happens to the application: sumbission - Variations, Amendments, Supplements, Annual Reports, and Renewals"@en .
+
+pharmdev:hasVariation  a         owl:ObjectProperty ;
+        rdfs:comment        "Links an authorized drug product with a variation/change that has been made on it."@en ;
+        rdfs:domain         pharmdev:AuthorizedMedicinalProduct ;
+        rdfs:label          "hat Variation"@de , "ha una variazione"@it , "tiene variación"@es , "ma Odmianę"@pl , "バリエーションがある"@jp , "a une variation"@fr , "has variation"@en ;
+        rdfs:range          pharmdev:Variation ;
+        skos:definition      "Links an authorized drug product with a variation/change that has been made on it."@en ;
+        skos:prefLabel  "has variation"@en .
+
+pharmdev:Variation  a            owl:Class ;
+        rdfs:comment        "A change to an existing marketing authorization. For every change an updated dossier has to be provided to the local Health Authority. The approval is required to keep the marketing authorization valid."@en ;
+        rdfs:label          "Variation"@en , "Zmiana"@pl , "Variazione"@it , "Variation"@fr , "Variation"@de , "Variación"@es ;
+        rdfs:subClassOf     pharmdev:RegulatoryActivity ;
+        rdfs:altLabel        "Change"@en ;
+        skos:definition      "A change to an existing marketing authorization."@en ;
+        skos:editorialNote  "Associated superclass \"Regulatory Activity\"."@en ;
+        skos:example         "label change"@en ;
+        skos:prefLabel  "Variation"@en .
+
+pharmdev:AuthorizedMedicinalProduct
+        a                   owl:Class ;
+        rdfs:comment        "The medicinal product as it is licensed in a certain country to be marketed."@en ;
+        rdfs:label          "Authorized Medicinal Product"@en , "Zatwierdzony lek"@pl , "Médicament approuvé"@fr , "Genehmigte Droge"@de , "Farmaco approvato"@it , "Droga aprobada"@es ;
+        rdfs:subClassOf     pharmdev:PharmaceuticalProduct ;
+        rdfs:altLabel        "Approved Drug"@en ;
+        skos:definition      "The medicinal product as it is licensed in a certain country to be marketed."@en ;
+        skos:editorialNote  "*: Insights gained during discussions with domain experts from Regulatory Affairs: The label for instances of class \"Authorized Medicinal Product\" should not be pre-concatenated (e.g. based on \"Product Principle Name and Form PPNF\", \"Country\" and \"Tradename\") to be used as a string in the label. Instead, the labels should be concatenated on the fly in the frontend of the application. This avoids the problem that the label must be recreated as soon as the label of a component changes (which, according to the domain experts, is not often, but regularly the case)."@en ;
+        skos:prefLabel  "Authorized Medicinal Product"@en .
+
+pharmdev:hasPPN  a                   owl:ObjectProperty ;
+        rdfs:comment            "Links a Pharmaceutical Product to the assigned Product Principle Name (PPN)."@en ;
+        rdfs:domain             pharmdev:PharmaceuticalProduct ;
+        rdfs:label              "has Product Principle Name"@en ;
+        rdfs:range              pharmdev:PPN ;
+        rdfs:altLabel            "has PPN"@en ;
+        skos:definition          "Links a Pharmaceutical Product to the assigned Product Principle Name (PPN)."@en ;
+        skos:editorialNote      "Thanks to a Property Chain, the Product Principle Name (PPN) of the product can be inferred on the basis of the assigned Product Principle Name and Form (PPNF)."@en ;
+        skos:prefLabel      "has Product Principle Name"@en ;
+        owl:propertyChainAxiom  ( pharmdev:hasPPNF pharmdev:PPNFhasPPN ) .
+
+pharmdev:PharmaceuticalProduct
+        a                   owl:Class ;
+        rdfs:comment        "Any substance introduced into a living organism with therapeutic or diagnostic purpose."@en ;
+        rdfs:label          "Pharmaceutical Product"@en , "Produkt farmaceutyczny"@pl , "Produit pharmaceutique"@fr , "Producto farmacéutico"@es , "Prodotto farmaceutico"@it , "Pharmazeutisches Produkt"@de ;
+        rdfs:subClassOf     pharmdev:Drug , main:Product ;
+        rdfs:altLabel        "Medicament"@en ;
+        skos:definition      "Any substance introduced into a living organism with therapeutic or diagnostic purpose."@en ;
+        skos:prefLabel  "Pharmaceutical Product"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/CHEBI/CHEBI52217> .
+
+pharmdev:SubstanceCombination
+        a                  owl:Class ;
+        rdfs:comment       "A combination of substances in distinction to compounds consisting of exactly one substance, called a \"Single Substance\"."@en ;
+        rdfs:label         "Substance Combination"@en ;
+        rdfs:subClassOf    pharmdev:Compound ;
+        skos:definition     "A combination of substances in distinction to compounds consisting of exactly one substance, called a \"Single Substance\"."@en ;
+        skos:example        "2,4-Dichlorobenzyl alcohol + L-Menthol + Amylmetacresol" , "Camphor + Eucalyptus globulus oil + Persea gratissima oil + Rose geranium oil + Rosa rubiginosa oil + Thyme essential oil" @en .
+
+pharmdev:GeneExpression  a       owl:Class ;
+        rdfs:comment        "The process in which a gene's sequence is converted into a mature gene product or products (proteins or RNA). This includes the production of an RNA transcript as well as any processing to produce a mature RNA product or an mRNA or circRNA (for protein-coding genes) and the translation of that mRNA or circRNA into protein. Protein maturation is included when required to form an active form of a product from an inactive precursor form."@en ;
+        rdfs:label          "Gene Expression"@en , "L'expression du gène"@fr , "Genetische Ausprägung"@de , "Expresión genética"@es , "Ekspresja genu"@pl , "Espressione genica"@it ;
+        rdfs:seeAlso        <http://purl.bioontology.org/ontology/MESH/D015870> , <http://purl.bioontology.org/ontology/NCIT#C16608> ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "The process in which a gene's sequence is converted into a mature gene product or products (proteins or RNA). This includes the production of an RNA transcript as well as any processing to produce a mature RNA product or an mRNA or circRNA (for protein-coding genes) and the translation of that mRNA or circRNA into protein. Protein maturation is included when required to form an active form of a product from an inactive precursor form."@en ;
+        skos:prefLabel  "Gene Expression"@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/GO_0010467> .
+
+pharmdev:PPNFhasPPN  a       owl:ObjectProperty ;
+        rdfs:comment    "Assignment of the designator \"Product Principle Name\" (PPN) to the associated designator \"Product Principle Name and Form\" (PPNF). As a rule, several PPNFs can be assigned to one PPN. Since PPNF is more specific than PPN, there are usually several PPNF per PPN."@en ;
+        rdfs:domain     pharmdev:PPNF ;
+        rdfs:label      "PPNF has PPN"@en ;
+        rdfs:range      pharmdev:PPN ;
+        skos:definition  "Assignment of the designator \"Product Principle Name\" (PPN) to the associated designator \"Product Principle Name and Form\" (PPNF). As a rule, several PPNFs can be assigned to one PPN. Since PPNF is more specific than PPN, there are usually several PPNF per PPN."@en ;
+        owl:inverseOf   pharmdev:PPNhasPPNF .
+
+pharmdev:PPNF  a                 owl:Class ;
+        rdfs:comment        "Designator for a pharmaceutical product composed of Product Principle Name (PPN) and (drug dose) Form."@en ;
+        rdfs:label          "Product Principle Name and Form"@en ;
+        rdfs:subClassOf     owl:Thing ;
+        rdfs:altLabel        "PPNF"@en ;
+        skos:definition      "Designator for a pharmaceutical product composed of Product Principle Name (PPN) and (drug dose) Form."@en ;
+        skos:example         "Xarelto; 2.5 mg; Film-coated tablet" , "Nexavar Film Tablets" , "Aspirin; 325 mg; Gastro-resistent tablet" ;
+        skos:prefLabel  "Product Principle Name and Form"@en .
+
+pharmdev:PPNhasPPNF  a       owl:ObjectProperty ;
+        rdfs:comment    "Assignment of the designator \"Product Principle Name and Form\" (PPNF) to the associated designator \"Product Principle Name\" (PPN). As a rule, several PPNFs can be assigned to one PPN. Since PPNF is more specific than PPN, there are usually several PPNF per PPN."@en ;
+        rdfs:domain     pharmdev:PPN ;
+        rdfs:label      "PPN has PPNF"@en ;
+        rdfs:range      pharmdev:PPNF ;
+        skos:definition  "Assignment of the designator \"Product Principle Name and Form\" (PPNF) to the associated designator \"Product Principle Name\" (PPN). As a rule, several PPNFs can be assigned to one PPN. Since PPNF is more specific than PPN, there are usually several PPNF per PPN."@en ;
+        owl:inverseOf   pharmdev:PPNFhasPPN .
+
+pharmdev:hasExcipient  a         owl:ObjectProperty ;
+        rdfs:comment        "Links a formulation to its excipient."@en ;
+        rdfs:domain         pharmdev:Formulation ;
+        rdfs:label          "hat Hilfsstoff"@de , "ha eccipiente"@it , "tiene excipiente"@es , "a un excipient"@fr , "賦形剤を持っている"@jp , "has excipient"@en ;
+        rdfs:range          pharmdev:Compound ;
+        rdfs:altLabel        "has inactive ingredient"@en ;
+        skos:definition      "Links a formulation to its excipient."@en ;
+        skos:prefLabel  "has excipient"@en .
+
+pharmdev:Formulation  a          owl:Class ;
+        rdfs:comment        "The composition of a dosage form, including the characteristics of its raw materials and the operations required to process it. Formulation factors include chemical nature of the drug (ester, salt, complex, etc), drug solubility in water and organic solvents, particle size and surface area, type of dosage form (solution, suspension, capsule, tablet) and the excipients and processes used in the manufacturing of the drug delivery systems."@en , "Official formulations for approved agents are presented in such books as the National Formulary and US Pharmacopeia. Whereas at one time, these were detailed and almost recipe-like, more recent entries may be limited to specifying the formula and imposing a standard limit for the active agent."@en ;
+        rdfs:label          "Formulation"@en , "Sformulowanie"@pl , "Formulierung"@de , "Formulazione"@it , "Formulation"@fr , "Formulación"@es ;
+        rdfs:subClassOf     owl:Thing ;
+        rdfs:altLabel        "Drug Formulation"@en ;
+        skos:definition      "The composition of a dosage form, including the characteristics of its raw materials and the operations required to process it."@en ;
+        skos:prefLabel  "Formulation"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C42638> .
+
+pharmdev:hasPharmaceuticalProduct
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a dossier to a pharmaceutical product."@en ;
+        rdfs:domain         pharmdev:Dossier ;
+        rdfs:label          "ma produkt farmaceutyczny"@pl , "a un produit pharmaceutique"@fr , "tiene producto farmacéutico"@es , "医薬品を持っている"@jp , "hat pharmazeutisches Produkt"@de , "ha un prodotto farmaceutico"@it , "has pharmaceutical product"@en ;
+        rdfs:range          pharmdev:PharmaceuticalProduct ;
+        skos:definition      "Links a dossier to a pharmaceutical product."@en ;
+        skos:prefLabel  "has pharmaceutical product"@en .
+
+pharmdev:Dossier  a              owl:Class ;
+        rdfs:comment        "Compiled package of all information required for a Marketing Authorization Application or a later change of the application."@en ;
+        rdfs:label          "Dossier"@en , "Fascicolo"@it , "Dossier"@fr , "Dossier"@de , "Dosier"@es , "Akta"@pl ;
+        rdfs:subClassOf     main:CreativeWork ;
+        skos:definition      "Compiled package of all information required for a Marketing Authorization Application or a later change of the application."@en ;
+        skos:prefLabel  "Dossier"@en ;
+        prov:wasDerivedFrom  <http://www.pharmaceutical-business-review.com/suppliers/ennov/products/dossier> .
+
+pharmdev:hasSubmitedDate  a      owl:DatatypeProperty ;
+        rdfs:comment        "Date of submission of a dossier to a regulatory authory."@en ;
+        rdfs:domain         pharmdev:Submission ;
+        rdfs:label          "提出日"@jp , "ha data di invio"@it , "tiene fecha de enviado"@es , "hat Datum eingereicht"@de , "a Date de soumission"@fr , "przesłał datę"@pl , "has submitted date"@en ;
+        rdfs:range          xsd:dateTime ;
+        skos:definition      "Date of submission of a dossier to a regulatory authory."@en ;
+        skos:prefLabel  "has submitted date"@en .
+
+pharmdev:Submission  a           owl:Class ;
+        rdfs:comment        "<p>Something submitted for the judgment or consideration of others.</p>\r\n<p>A compilation of the contents of one or more submission units that supports a specific regulatory purpose or decision. In most cases, the compilation of the submission units is used to assess a product's quality, safety and effectiveness. Submissions are always associated with some regulatory action (or inaction). Each submission contains their own regulatory action. Submissions (e.g., initial marketing application, supplemental marketing application) would generally be comprised of multiple submissions units. Most typically the submission will be used to organize information based on a review clock. Receipt date from the regulatory authority is important for a submission.</p>" ;
+        rdfs:label          "Submission"@en , "Uleglosc"@pl , "Soumission"@fr , "Sottomissione"@it , "Envío"@es , "Einreichung"@de ;
+        rdfs:subClassOf     pharmdev:RegulatoryActivity ;
+        skos:definition      "Something submitted for the judgment or consideration of others."@en ;
+        skos:example         "A request for approval to either market a product or to allow the applicant to start testing of a proposed product."@en ;
+        skos:prefLabel  "Submission"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C25694> .
+
+pharmdev:isAuthorizedInGeographicalArea
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links an authorized country with a pharmaceutical product."@en ;
+        rdfs:domain         pharmdev:AuthorizedMedicinalProduct ;
+        rdfs:label          "est autorisé dans la zone géographique"@fr , "è autorizzato in area geografica"@it , "jest autoryzowany w obszarze geograficznym"@pl , "está autorizado en el área geográfica"@es , "地理的エリアで認可されています"@jp , "ist im geographischen Bereich autorisiert"@de , "is authorized in geographical area"@en ;
+        rdfs:range          main:GeographicalLocation ;
+        skos:definition      "Links an authorized country with a pharmaceutical product."@en ;
+        skos:prefLabel  "is authorized in geographical area"@en .
+
+
+pharmdev:hasIndication  a        owl:ObjectProperty ;
+        rdfs:comment        "Links a pharmaceutical product to an indication." ;
+        rdfs:domain         pharmdev:PharmaceuticalProduct ;
+        rdfs:label          "tiene indicación"@es , "表示がある"@jp , "ha Indicazione"@it , "hat Indikation"@de , "ma ekspresję genów"@pl , "a une expression génétique"@fr , "has indication"@en ;
+        rdfs:range          pharmdev:Indication ;
+        skos:definition      "Links a pharmaceutical product to an indication." ;
+        skos:prefLabel  "has indication"@en .
+
+pharmdev:Indication  a           owl:Class ;
+        rdfs:comment        "A sign, signal, circumstance, or symptom which serves to indicate or point out the cause, pathology, treatment, or issue of an attack of disease; the basis for initiation of a treatment for a disease or of a diagnostic test (causal, or symptomatic, or disease-specific indication)."@en ;
+        rdfs:label          "Indication"@en ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A sign, signal, circumstance, or symptom which serves to indicate or point out the cause, pathology, treatment, or issue of an attack of disease; the basis for initiation of a treatment for a disease or of a diagnostic test (causal, or symptomatic, or disease-specific indication)."@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/NCIT_C41184> .
+
+pharmdev:hasDrugDrugInteraction
+        a                   owl:ObjectProperty , owl:TransitiveProperty ;
+        rdfs:comment        "Links two drugs that interact with each other."@en ;
+        rdfs:domain         pharmdev:Drug ;
+        rdfs:label          "ha l' interazione droga"@it , "薬物薬物相互作用を有する"@jp , "a une interaction médicamenteuse"@fr , "ma interakcje między lekami"@pl , "tiene interacción entre Drogas"@es , "has drug-drug interaction"@en , "hat Drogenwechselwirkung "@de ;
+        rdfs:range          pharmdev:Drug ;
+        skos:definition      "Links two drugs that interact with each other."@en ;
+        skos:prefLabel  "has drug-drug interaction"@en .
+
+pharmdev:ChemicalStructure
+        a                   owl:Class ;
+        rdfs:comment        "Used with chemicals, biological, and non-biological substances for their composition, structure, characterization, and properties; also used for the chemical composition or content of organs, tissue, tumors, body fluids, organisms, and plants."@en ;
+        rdfs:label          "Chemical Structure"@en , "Struktura chemiczna"@pl , "Struttura chimica"@it , "Estructura química"@es , "Chemsche Struktur"@de , "Structure chimique"@fr ;
+        rdfs:seeAlso        <http://purl.bioontology.org/ontology/NCIT#C103240> ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "Used with chemicals, biological, and non-biological substances for their composition, structure, characterization, and properties; also used for the chemical composition or content of organs, tissue, tumors, body fluids, organisms, and plants."@en ;
+        skos:prefLabel  "Chemical Structure"@en ;
+        skos:scopeNote       "Excludes chemical analysis and determination of substances for which \"analysis\" is used; excludes synthesis for which \"chemical synthesis\" is used; excludes isolation and purification of substances for which \"isolation & purification\" is used."@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/MESH/Q000737> .
+
+pharmdev:DrugLabel  a            owl:Class ;
+        rdfs:comment        "A brief description given for purposes of identification; an identifying or descriptive marker that is attached to an object."@en ;
+        rdfs:label          "Drug Label"@en , "Étiquette de médicament"@fr , "Etykieta leków"@pl , "Etiqueta de medicamento"@es , "Etichetta della Farmaco"@it , "Drogenlabel"@de ;
+        rdfs:subClassOf     main:Document ;
+        skos:definition      "A brief description given for purposes of identification; an identifying or descriptive marker that is attached to an object."@en ;
+        skos:prefLabel  "Drug Label"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C45561> .
+
+pharmdev:DiseaseAttribute  a     owl:Class ;
+        rdfs:comment        "Clinical characteristics of a disease."@en ;
+        rdfs:label          "Disease Attribute"@en , "Krankheitssymptom"@de , "Charakterystyka choroby"@pl , "Attributo della malattia"@it , "Attribut de maladie"@fr , "Atributo de enfermedad"@es ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "Clinical characteristics of a disease."@en ;
+        skos:prefLabel  "Disease Attribute"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/MESH/D020969> .
+
+pharmdev:Specimen  a             owl:Class ;
+        rdfs:comment        "A part of a thing, or of several things, taken to demonstrate or to determine the character of the whole, e.g. a substance, or portion of material obtained for use in testing, examination, or study; particularly, a preparation of tissue or bodily fluid taken for examination or diagnosis."@en ;
+        rdfs:label          "Specimen"@en , "Spécimen"@fr , "Prüfkörper"@de , "Probe"@de , "Okaz"@pl , "Espécimen"@es , "Campione"@it ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A part of a thing, or of several things, taken to demonstrate or to determine the character of the whole, e.g. a substance, or portion of material obtained for use in testing, examination, or study; particularly, a preparation of tissue or bodily fluid taken for examination or diagnosis."@en ;
+        skos:prefLabel  "Specimen"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C19157> .
+
+pharmdev:Enzyme  a               owl:Class ;
+        rdfs:comment        "Molecules that catalyze a chemical reaction. They are usually proteins, although catalytic RNA and DNA molecules have been identified."@en ;
+        rdfs:label          "Enzyme"@en , "Enzyme"@fr , "Enzym"@pl , "Enzym"@de , "Enzima"@it , "Enzima"@es ;
+        rdfs:seeAlso        <obi:obi0000427> , <http://purl.bioontology.org/ontology/SNOMEDCT/90668006> ;
+        rdfs:subClassOf     pharmdev:Target ;
+        skos:definition      "Molecules that catalyze a chemical reaction. They are usually proteins, although catalytic RNA and DNA molecules have been identified."@en ;
+        skos:prefLabel  "Enzyme"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C16554> .
+
+pharmdev:Contraindication  a     owl:Class ;
+        rdfs:comment        "A symptom or medical condition that makes a particular treatment or procedure inadvisable because a person is likely to have a bad reaction. "@en ;
+        rdfs:label          "Contraindication"@en ;
+        rdfs:seeAlso        pharmdev:Indication ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A symptom or medical condition that makes a particular treatment or procedure inadvisable because a person is likely to have a bad reaction. "@en ;
+        skos:editorialNote  "*: Check whether the classes \"Indication\" and \"Contraindication\" can be merged into a single class. Is a distinction based on the class needed or are the instances identical? In other words: Is it sufficient if there are two different object properties with identical range?"@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/NCIT_C50646> .
+
+pharmdev:hasComponent  a        owl:ObjectProperty ;
+        rdfs:comment       "Links a substance combination to its component."@en ;
+        rdfs:domain        pharmdev:SubstanceCombination ;
+        rdfs:label         "has component"@en ;
+        rdfs:range         pharmdev:Substance ;
+        skos:definition     "Links a substance combination to its component."@en ;
+        skos:editorialNote "*: This property is a potential candidate for connection to a generic whole-part relationship (meronymy) as it may be represented in a top-level ontology."@en .
+
+pharmdev:Substance  a           owl:Class ;
+        rdfs:comment       "A single substance in distinction to compounds consisting of several substances, called a \"Substance Combination\"."@en ;
+        rdfs:label         "Single Substance"@en ;
+        rdfs:subClassOf    pharmdev:Compound ;
+        skos:definition     "A single substance in distinction to compounds consisting of several substances, called a \"Substance Combination\"."@en ;
+        skos:editorialNote "*: A distinction must be made between \"Single Substance\" and \"Substance Combination\". "@en ;
+        skos:example        "07112233" , "Acetylsalicylic acid" .
+
+pharmdev:AdverseEvent  a         owl:Class ;
+        rdfs:comment        "Any unfavorable or unintended disease, sign, or symptom (including an abnormal laboratory finding) that is temporally associated with the use of a medical treatment or procedure, and that may or may not be considered related to the medical treatment or procedure. Such events can be related to the intervention, dose, route of administration, patient, or caused by an interaction with another drug(s) or procedure(s)."@en ;
+        rdfs:label          "Adverse Event"@en ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "Any unfavorable or unintended disease, sign, or symptom (including an abnormal laboratory finding) that is temporally associated with the use of a medical treatment or procedure, and that may or may not be considered related to the medical treatment or procedure. Such events can be related to the intervention, dose, route of administration, patient, or caused by an interaction with another drug(s) or procedure(s)"@en ;
+        skos:prefLabel  "Adverse Event"@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/NCIT_C41331> .
+
+pharmdev:hasIndicationKeyword
+        a                  owl:DatatypeProperty ;
+        rdfs:comment       "Uncontrolled keyword that describes the indication of the pharmaceutical product in terms of the intended use."@en ;
+        rdfs:domain        pharmdev:PharmaceuticalProduct ;
+        rdfs:label         "has indication keyword"@en ;
+        rdfs:range         rdfs:Literal ;
+        skos:definition     "Uncontrolled keyword that describes the indication of the pharmaceutical product in terms of the intended use."@en ;
+        skos:editorialNote ""@en .
+
+pharmdev:hasAdverseEffect  a     owl:ObjectProperty ;
+        rdfs:comment        "Links a drug to its adverse effect." ;
+        rdfs:domain         pharmdev:Drug ;
+        rdfs:label          "ha effetto negativo"@it , "ma działanie szkodliwe"@pl , "悪影響がある"@jp , "a un effet indésirable"@fr , "tiene efectos adversos"@es , "hat negative Auswirkungen"@de , "has adverse effect"@en ;
+        rdfs:range          pharmdev:AdverseEffect ;
+        skos:definition      "Links a drug to its adverse effect." ;
+        skos:prefLabel  "has adverse effect"@en .
+
+pharmdev:hasActiveIngredient
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a formulation to its active ingredient."@en ;
+        rdfs:domain         pharmdev:Formulation ;
+        rdfs:label          "contiene ingredienti attivi"@it , "活性成分を有する"@jp , "a un ingrédient actif"@fr , "tiene Ingrediente Activo"@es , "ma aktywny składnik"@pl , "has active ingredient"@en , "hat Wirkstoff"@de ;
+        rdfs:range          pharmdev:Compound ;
+        skos:definition      "Links a formulation to its active ingredient."@en ;
+        skos:prefLabel  "has active ingredient"@en .
+
+pharmdev:Biobank  a              owl:Class ;
+        rdfs:comment        "A biobank is a collections of samples of biological substances (e.g. tissue, blood, DNA) which are linked to data about the samples and their donors. They have a dual nature as collections of samples and data."@en ;
+        rdfs:label          "Biobank"@en , "Biobanque"@fr , "Biobank"@pl , "Biobank"@it , "Biobank"@de , "Biobanco"@es ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "A biobank is a collections of samples of biological substances (e.g. tissue, blood, DNA) which are linked to data about the samples and their donors. They have a dual nature as collections of samples and data."@en ;
+        skos:prefLabel  "Biobank"@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/OMIABIS_0000000> .
+
+pharmdev:hasFormulation  a       owl:ObjectProperty ;
+        rdfs:comment        "Links a pharmaceutical product to its formulation."@en ;
+        rdfs:domain         pharmdev:PharmaceuticalProduct ;
+        rdfs:label          "tiene formulación"@es , "ha la formulazione"@it , "ma sformułowanie"@pl , "a la formulation"@fr , "調合している"@jp , "hat Formulierung"@de , "has formulation"@en ;
+        rdfs:range          pharmdev:Formulation ;
+        skos:definition      "Links a pharmaceutical product to its formulation."@en ;
+        skos:prefLabel  "has formulation"@en .
+
+pharmdev:RegulatoryAuthority
+        a                   owl:Class ;
+        rdfs:comment        "Governmental body that has the power to pass and enforce laws. Grants marketing authorization for a certain country or region."@en ;
+        rdfs:label          "Regulatory Authority"@en , "Autorité de régulation"@fr , "Autorità di regolamentazione"@it , "規制当局"@jp , "Gesundheitsbehörde"@de , "Autoridad reguladora de sanidad"@es , "Organ regulacyjny"@pl ;
+        rdfs:subClassOf     main:GovernmentBody ;
+        rdfs:altLabel        "Health Authority"@en , "Regulatory Agency"@en ;
+        skos:definition      "Governmental body that has the power to pass and enforce laws. Grants marketing authorization for a certain country or region."@en ;
+        skos:example         "Medicines and Healthcare Products Regulatory Agency (MHRA) in the UK"@en , "Bundesinstitut für Arzneimittel und Medizinprodukte (BfArM) in Germany"@en , "Food and Drug Administration (FDA) in the USA"@en , "European Medicines Agency (EMA) in the European Union"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C88081> .
+
+pharmdev:isSubmittedTo  a        owl:ObjectProperty ;
+        rdfs:comment        "Links a dossier with the country or organization (e.g., EU) where it is submitted."@en ;
+        rdfs:domain         pharmdev:Submission ;
+        rdfs:label          "wird übermittelt"@de , "se envía a"@es , "est soumis à"@fr , "è inviato a"@it , "został przesłany"@pl , "提出先"@jp , "is submitted to"@en ;
+        rdfs:range          pharmdev:RegulatoryAuthority ;
+        skos:definition      "Links a dossier with the country or organization (e.g., EU) where it is submitted."@en ;
+        skos:prefLabel  "is submitted to"@en .
+
+pharmdev:hasDrugLabel  a         owl:ObjectProperty ;
+        rdfs:comment        "Links a pharmaceutical product to a drug label."@en ;
+        rdfs:domain         pharmdev:PharmaceuticalProduct ;
+        rdfs:label          "ma etykietę leku"@pl , "ha etichetta di droga"@it , "tiene etiqueta de medicamento"@es , "hat Drogenlabel"@de , "ドラッグラベルを持っている"@jp , "a une étiquette de médicament"@fr , "has drug label"@en ;
+        rdfs:range          pharmdev:DrugLabel ;
+        skos:definition      "Links a pharmaceutical product to a drug label."@en ;
+        skos:prefLabel  "has drug label"@en .
+
+pharmdev:hasDrug  a              owl:ObjectProperty ;
+        rdfs:comment        "Links a treatment to a used drug."@en ;
+        rdfs:domain         pharmdev:Treatment ;
+        rdfs:label          "a de la drogue"@fr , "ha la droga"@it , "薬を持っている"@jp , "tiene droga"@es , "has drug"@pl , "hat Medikament"@de , "has drug"@en ;
+        rdfs:range          pharmdev:Drug ;
+        skos:definition      "Links a treatment to a used drug."@en ;
+        skos:prefLabel  "has drug"@en .
+
+pharmdev:hasParentInternalID
+        a                       owl:ObjectProperty ;
+        rdfs:comment            "Links a compound to the Internal Number of the compound's active moiety."@en ;
+        rdfs:domain             pharmdev:Compound ;
+        rdfs:label              "has Parent Internal Number"@en ;
+        rdfs:range              pharmdev:InternalID ;
+        skos:definition          "Links a compound to the Internal Number of the compound's active moiety."@en ;
+        skos:editorialNote      "*: Property chain allows to infer the Parent Internal Number using a reasoner."@en ;
+        owl:propertyChainAxiom  ( pharmdev:hasActiveMoiety pharmdev:hasInternalID ) .
+
+pharmdev:hasDrugDoseForm  a  owl:ObjectProperty ;
+        rdfs:comment    "Links something to a drug dose form."@en ;
+        rdfs:label      "has drug dose form"@en ;
+        rdfs:range      pharmdev:DrugDoseForm ;
+        skos:definition  "Links something to a drug dose form."@en .
+
+pharmdev:DrugDoseForm  a         owl:Class ;
+        rdfs:comment        "Pharmaceutical dosage form of a drug with regard to the physical appearance."@en ;
+        rdfs:label          "Drug Dose Form"@en , "Postac dawki leku"@pl , "Formule de médicament"@fr , "Formulario de dosis de medicamento"@es , "Forma della dose di Farmaco"@it , "Arzneimitteldosisform"@de ;
+        rdfs:subClassOf     owl:Thing ;
+        skos:definition      "Pharmaceutical dosage form of a drug with regard to the physical appearance."@en ;
+        skos:example         "tablet"@en , "capsule"@en , "solution"@en ;
+        skos:prefLabel  "Drug Dose Form"@en .
+
+pharmdev:Gene  a                 owl:Class ;
+        rdfs:comment        "A functional unit of heredity which occupies a specific position on a particular chromosome and serves as the template for a product that contributes to a phenotype or a biological function."@en ;
+        rdfs:label          "Gene"@en , "Gène"@fr , "Gene"@it , "Gen"@pl , "Gen"@es , "Gen"@de ;
+        rdfs:subClassOf     pharmdev:Target ;
+        skos:definition      "A functional unit of heredity which occupies a specific position on a particular chromosome and serves as the template for a product that contributes to a phenotype or a biological function."@en ;
+        skos:prefLabel  "Gene"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C16612> .
+
+pharmdev:hasGeneExpression
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a gene to its expression."@en ;
+        rdfs:domain         pharmdev:Gene ;
+        rdfs:label          "ma ekspresję genów"@pl , "a une expression génétique"@fr , "tiene expresión genética"@es , "遺伝子発現を有する"@jp , "hat Genexpression"@de , "ha espressione genica"@it , "has gene expression"@en ;
+        rdfs:range          pharmdev:GeneExpression ;
+        skos:definition      "Links a gene to its expression."@en ;
+        skos:prefLabel  "has gene expression"@en .
+
+pharmdev:hasDiseaseAttribute
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a disease to its attributes."@en ;
+        rdfs:domain         pharmdev:Disease ;
+        rdfs:label          "hat Krankheitseigenschaft"@de , "ha l'attributo della malattia"@it , "a un attribut de maladie"@fr , "ma atrybut choroby"@pl , "病気の属性がある"@jp , "tiene atributo de enfermedad"@es , "has disease attribute"@en ;
+        rdfs:range          pharmdev:DiseaseAttribute ;
+        skos:definition      "Links a disease to its attributes."@en ;
+        skos:prefLabel  "has disease attribute"@en .
+
+pharmdev:hasConcentration  a     owl:ObjectProperty ;
+        rdfs:comment        "Links a pharmaceutical product to a concentration."@en ;
+        rdfs:domain         pharmdev:Compound ;
+        rdfs:label          "ma stężenie"@pl , "ha concentrazione"@it , "tiene concentración"@es , "a la concentration"@fr , "濃度がある"@jp , "hat Konzentration"@de , "has concentration"@en ;
+        rdfs:range          pharmdev:Concentration ;
+        skos:definition      "Links a pharmaceutical product to a concentration."@en ;
+        skos:prefLabel  "has concentration"@en .
+
+pharmdev:hasATCClassification
+        a                   owl:DatatypeProperty ;
+        rdfs:comment        "Links a Pharmaceutical Product to a ATC Concept in order to represent the classification of the pharmaceutical product according to the Anatomical Therapeutic Chemical (ATC) classification system."@en ;
+        rdfs:domain         pharmdev:PharmaceuticalProduct ;
+        rdfs:label          "hat ATC Klassifizierung"@de , "has ATC classification"@en ;
+        rdfs:range          xsd:string ;
+        rdfs:seeAlso        <https://www.whocc.no/atc/structure_and_principles/> ;
+        skos:definition      "Links a Pharmaceutical Product to a ATC Concept in order to represent the classification of the pharmaceutical product according to the Anatomical Therapeutic Chemical (ATC) classification system."@en ;
+        skos:prefLabel  "has ATC classification"@en .
+
+pharmdev:hasSpecimen  a          owl:ObjectProperty ;
+        rdfs:comment        "Links a biobank with a specimen."@en ;
+        rdfs:domain         pharmdev:Biobank ;
+        rdfs:label          "hat Probe"@de , "ha esemplare"@it , "ma wzór"@pl , "a spécimen"@fr , "tiene espécimen"@es , "標本を持っている"@jp , "has specimen"@en ;
+        rdfs:range          pharmdev:Specimen ;
+        skos:definition      "Links a biobank with a specimen."@en ;
+        skos:prefLabel  "has specimen"@en .
+
+pharmdev:hasDossier  a           owl:ObjectProperty ;
+        rdfs:comment        "Links a submission with a dossier."@en ;
+        rdfs:domain         pharmdev:Submission ;
+        rdfs:label          "tiene Dossier"@es , "ha Dossier"@it , "一式"@jp , "a Dossier"@fr , "hat Dossier"@de , "ma dossier"@pl , "has dossier"@en ;
+        rdfs:range          pharmdev:Dossier ;
+        skos:definition      "Links a submission with a dossier."@en ;
+        skos:prefLabel  "has dossier"@en .
+
+pharmdev:isPartOfPathway  a      owl:ObjectProperty ;
+        rdfs:comment        "Links a target to a pathway."@en ;
+        rdfs:domain         pharmdev:Target ;
+        rdfs:label          "jest częścią ścieżki"@pl , "ist Teil des Weges"@de , "è parte del percorso"@it , "fait partie de Pathway"@fr , "パスウェイの一部です"@jp , "es parte del camino"@es , "is part of pathway"@en ;
+        rdfs:range          pharmdev:Pathway ;
+        skos:definition      "Links a target to a pathway."@en ;
+        skos:prefLabel  "is part of pathway"@en .
+
+pharmdev:hasApprovedDate  a      owl:DatatypeProperty ;
+        rdfs:comment        "Links a submission with the date when it is approved."@en ;
+        rdfs:domain         pharmdev:Submission ;
+        rdfs:label          "Date d'approbation"@fr , "tiene fecha aprobada"@es , "hat Genehmigungsdatum"@de , "承認日"@jp , "ma Zatwierdzoną datę"@pl , "ha la data approvata"@it , "has approved date"@en ;
+        rdfs:range          xsd:dateTime ;
+        skos:definition      "Links a submission with the date when it is approved."@en ;
+        skos:prefLabel  "has approved date"@en .
+
+pharmdev:IonChannel  a           owl:Class ;
+        rdfs:comment        "A transmembrane pore that presents a hydrophilic channel for ions to cross a lipid bilayer down their electrochemical gradients. Some degree of ion specificity is usually observed and typically a million ions per second may flow. Channels may be permanently open, like the potassium leak channel or they may be voltage gated, like the sodium channel or ligand gated like the acetylcholine receptor."@en ;
+        rdfs:label          "Ion Channel"@en , "Kanal jonowy"@pl , "Canale Ionico"@it , "Canal Iónico"@es , "Canal Ionique"@fr , "Ionenkanal"@de ;
+        rdfs:subClassOf     pharmdev:Target ;
+        skos:definition      "A transmembrane pore that presents a hydrophilic channel for ions to cross a lipid bilayer down their electrochemical gradients. Some degree of ion specificity is usually observed and typically a million ions per second may flow. Channels may be permanently open, like the potassium leak channel or they may be voltage gated, like the sodium channel or ligand gated like the acetylcholine receptor."@en ;
+        skos:prefLabel  "Ion Channel"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/NCIT#C16754> .
+
+pharmdev:hasContraindication
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a pharmaceutical product to a contraindication."@en ;
+        rdfs:domain         pharmdev:PharmaceuticalProduct ;
+        rdfs:label          "ma przeciwwskazanie"@pl , "tiene contraindicación"@es , "禁忌"@jp , "ha controindicazione"@it , "a contre-indication"@fr , "hat Kontraindikation"@de , "has contraindication"@en ;
+        rdfs:range          pharmdev:Contraindication ;
+        skos:definition      "Links a pharmaceutical product to a contraindication."@en ;
+        skos:prefLabel  "has contraindication"@en .
+
+pharmdev:hasDrugTargetInteraction
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a drug to a target it interacts with."@en ;
+        rdfs:domain         pharmdev:Drug ;
+        rdfs:label          "a une interaction avec la cible de médicaments"@fr , "ma interakcję między lekami"@pl , "tiene interacción entre la droga y el objetivo"@es , "薬物標的相互作用を有する"@jp , "ha l'interazione con il target di droga"@it , "has drug-target interaction"@en , "hat Drug-Target Wechselwirkung"@de ;
+        rdfs:range          pharmdev:Target ;
+        skos:definition      "Links a drug to a target it interacts with."@en ;
+        skos:prefLabel  "has drug-target interaction"@en .
+
+pharmdev:hasCompound  a          owl:ObjectProperty ;
+        rdfs:comment        "Links a drug to a compound."@en ;
+        rdfs:domain         pharmdev:Drug ;
+        rdfs:label          "a un composé"@fr , "tiene compuesto"@es , "化合物"@jp , "ma związek"@pl , "hat Verbindung"@de , "ha Composto"@it , "has compound"@en ;
+        rdfs:range          pharmdev:Compound ;
+        skos:definition      "Links a drug to a compound."@en ;
+        skos:prefLabel  "has compound"@en .
+
+pharmdev:hasPPNF  a              owl:ObjectProperty ;
+        rdfs:comment        "Links a Pharmaceutical Product to the assigned Product Principle Name and Form (PPNF)."@en ;
+        rdfs:domain         pharmdev:PharmaceuticalProduct ;
+        rdfs:label          "has Product Principle Name and Form"@en ;
+        rdfs:range          pharmdev:PPNF ;
+        rdfs:altLabel        "has PPNF"@en ;
+        skos:definition      "Links a Pharmaceutical Product to the assigned Product Principle Name and Form (PPNF)."@en ;
+        skos:prefLabel  "has Product Principle Name and Form"@en .
+
+pharmdev:hasDiseaseName  a       owl:DatatypeProperty ;
+        rdfs:comment        "Name of the disease."@en ;
+        rdfs:domain         pharmdev:Disease ;
+        rdfs:label          "tiene nombre de enfermedad"@es , "病名がある"@jp , "ha il nome della malattia"@it , "a le nom de la maladie"@fr , "ma nazwę choroby"@pl , "hat Krankheitsname"@de , "has disease name"@en ;
+        rdfs:range          rdfs:Literal ;
+        skos:definition      "Name of the disease."@en ;
+        skos:prefLabel  "has disease name"@en .
+
+pharmdev:hasChemicalStructure
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a compound to a chemical structure."@en ;
+        rdfs:domain         pharmdev:Compound ;
+        rdfs:label          "化学構造を有する"@jp , "tiene Estructura Química"@es , "ha struttura chimica"@it , "posiada strukturę chemiczną"@pl , "hat eine chemische Struktur"@de , "a une structure chimique"@fr , "has chemical structure"@en ;
+        rdfs:range          pharmdev:ChemicalStructure ;
+        skos:definition      "Links a compound to a chemical structure."@en ;
+        skos:prefLabel  "has chemical structure"@en .
+
+pharmdev:hasECTDNumber  a        owl:FunctionalProperty , owl:DatatypeProperty ;
+        rdfs:comment        "The sequence number of an Electronic Common Technical Document (eCTD)."@en ;
+        rdfs:domain         pharmdev:Dossier ;
+        rdfs:label          "has eCTD Number"@en , "薬eCTD番号を持つ"@jp , "a le numéro eCTD"@fr , "hat eCTD-Nummer"@de , "ma numer eCTD"@pl , "tiene número eCTD"@es , "ha il numero eCTD"@it ;
+        rdfs:range          xsd:long ;
+        rdfs:altLabel        "has Electronic Common Technical Document number"@en ;
+        skos:definition      "The sequence number of an Electronic Common Technical Document (eCTD)."@en ;
+        skos:prefLabel  "has eCTD Number"@en .
+
+pharmdev:Assay  a                owl:Class ;
+        rdfs:comment        "A planned process with the objective to produce information about the material entity that is the evaluant, by physically examining it or its proxies."@en ;
+        rdfs:label          "Assay"@en , "Essai"@fr , "Ensayo"@es , "saggio"@it , "Analiza"@pl , "Entnommene Probe"@de ;
+        rdfs:seeAlso        <http://purl.bioontology.org/ontology/NCIT#C60819> ;
+        rdfs:subClassOf     owl:Thing ;
+        rdfs:altLabel        "Scientific observation"@en ;
+        skos:definition      "A planned process with the objective to produce information about the material entity that is the evaluant, by physically examining it or its proxies."@en ;
+        skos:prefLabel  "Assay"@en ;
+        prov:wasDerivedFrom  <http://purl.bioontology.org/ontology/OBI/OBI_0000070> .
+
+pharmdev:hasDose  a              owl:ObjectProperty ;
+        rdfs:comment        "Links a treatment to a particular drug dose."@en ;
+        rdfs:domain         pharmdev:Treatment ;
+        rdfs:label          "ma dawkę"@pl , "ha Dose"@it , "hat Dosis"@de , "tiene dosis"@es , "a la dose"@fr , "線量がある"@jp , "has dose"@en ;
+        rdfs:range          pharmdev:Dose ;
+        skos:definition      "Links a treatment to a particular drug dose."@en ;
+        skos:prefLabel  "has dose"@en .
+
+pharmdev:ClinicalActivity  a  owl:Class ;
+        rdfs:comment     "Activity that takes place in the context of clinical research and development."@en ;
+        rdfs:label       "Clinical Activity"@en ;
+        rdfs:subClassOf  main:Activity ;
+        skos:definition   "Activity that takes place in the context of clinical research and development."@en .
+
+pharmdev:AdverseEffect  a        owl:Class ;
+        rdfs:comment        "Any noxious and unintended response(s) to a medical product or procedure, for which a causal relationship with this product or procedure is at least a reasonable possibility, i.e. the relationship cannot be ruled out."@en ;
+        rdfs:label          "Adverse Effect"@en ;
+        rdfs:subClassOf     owl:Thing ;
+        rdfs:altLabel        "Undesirable effect"@en , "Side effect"@en , "Injurious effect"@en , "Adverse Reaction"@en ;
+        skos:definition      "Any noxious and unintended response(s) to a medical product or procedure, for which a causal relationship with this product or procedure is at least a reasonable possibility, i.e. the relationship cannot be ruled out."@en ;
+        skos:prefLabel  "Adverse Effect"@en ;
+        prov:wasDerivedFrom  <http://purl.obolibrary.org/obo/NCIT_C41332> .
+
+pharmdev:PPNFhasCompound  a     owl:ObjectProperty ;
+        rdfs:comment       "Links a PPNF to the associated compounds (active ingredients or excipients)."@en ;
+        rdfs:domain        pharmdev:PPNF ;
+        rdfs:label         "PPNF has compound"@en ;
+        rdfs:range         pharmdev:Compound ;
+        skos:definition     "Links a PPNF to the associated compounds (active ingredients or excipients)."@en .
+
+pharmdev:PPNFhasActiveIngredient
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a PPNF to the associated active ingredients."@en ;
+        rdfs:domain         pharmdev:PPNF ;
+        rdfs:label          "PPNF has active ingredient"@en ;
+        rdfs:range          pharmdev:Compound ;
+        rdfs:subPropertyOf  pharmdev:PPNFhasCompound ;
+        skos:definition      "Links a PPNF to the associated active ingredients."@en .
+        
+
+pharmdev:PPNFhasExcipient  a     owl:ObjectProperty ;
+        rdfs:comment        "Links a PPNF to the associated excipients."@en ;
+        rdfs:domain         pharmdev:PPNF ;
+        rdfs:label          "PPNF has excipient"@en ;
+        rdfs:range          pharmdev:Compound ;
+        rdfs:subPropertyOf  pharmdev:PPNFhasCompound ;
+        skos:definition      "Links a PPNF to the associated excipients."@en .
+
+pharmdev:PPNhasATCClassification
+        a                   owl:DatatypeProperty ;
+        rdfs:comment        "Classification according to the Anatomical Therapeutic Chemical (ATC) classification system associated with the PPN."@en ;
+        rdfs:domain         pharmdev:PPN ;
+        rdfs:label          "PPN hat ATC Klassifizierung"@de , "PPN has ATC classification"@en ;
+        rdfs:range          xsd:string ;
+        skos:definition      "Classification according to the Anatomical Therapeutic Chemical (ATC) classification system associated with the PPN."@en ;
+        skos:editorialNote  "*: This property is a workaround"@en ;
+        skos:prefLabel  "PPN has ATC Classification"@en .
+
+pharmdev:PPNhasIndicationKeyword
+        a                  owl:DatatypeProperty ;
+        rdfs:comment       "Uncontrolled keyword that describes the indication associated with the PPN in terms of the intended use of the pharmaceutical product."@en ;
+        rdfs:domain        pharmdev:PPN ;
+        rdfs:label         "PPN has indication keyword"@en ;
+        rdfs:range         rdfs:Literal ;
+        skos:definition     "Uncontrolled keyword that describes the indication associated with the PPN in terms of the intended use of the pharmaceutical product."@en ;
+        skos:editorialNote "*: This property is a workaround. "@en .
+
+pharmdev:drugLabelHasDrugDoseForm
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a drug label to a drug dose form."@en ;
+        rdfs:domain         pharmdev:DrugLabel ;
+        rdfs:label          "has drug dose form"@en ;
+        rdfs:range          pharmdev:DrugDoseForm ;
+        rdfs:subPropertyOf  pharmdev:hasDrugDoseForm ;
+        rdfs:altLabel        "drug label has drug dose form"@en ;
+        skos:definition      "Links a drug label to a drug dose form."@en ;
+        skos:editorialNote  "Result of splitting the former property pharmdev:hasDrugDoseForm into two separate ObjectProperties in order to avoid owl:unionOf according to the corresponding Best Practice ."@en ;
+        skos:prefLabel  "has drug dose form"@en .
+
+pharmdev:treatmentHasDrugDoseForm
+        a                   owl:ObjectProperty ;
+        rdfs:comment        "Links a treatment to a drug dose form."@en ;
+        rdfs:domain         pharmdev:Treatment ;
+        rdfs:label          "has drug dose form"@en ;
+        rdfs:range          pharmdev:DrugDoseForm ;
+        rdfs:subPropertyOf  pharmdev:hasDrugDoseForm ;
+        rdfs:altLabel        "treatment has drug dose form"@en ;
+        skos:definition      "Links a treatment to a drug dose form."@en ;
+        skos:editorialNote  "Result of splitting the former property pharmdev:hasDrugDoseForm into two separate ObjectProperties in order to avoid owl:unionOf according to the corresponding Best Practice."@en ;
+        skos:prefLabel  "has drug dose form"@en .
