@@ -11,4 +11,6 @@ cdr-data is retrieved from the public United States Environmental Protection age
 
 stability-reports are completely fake generated but aligned with some real exemplary reports data. These are the typical full of expert content .docs or .pdf files we would process with text2ttl and integrate via ontologies into the KG / DG .
 
+You are free to extend the ontologies and use them on your own data which can be provided in various formats!
+
 
