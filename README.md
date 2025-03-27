@@ -13,4 +13,6 @@ stability-reports are completely fake generated but aligned with some real exemp
 
 You are free to extend the ontologies and use them on your own data which can be provided in various formats!
 
+polymorphism-scope is a very pruned version of an ontology that, extended by specific vocab instatiation, immensively supports analysis and standardization of s.c. polymorphy description of a substance. 
+
 
